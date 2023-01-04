@@ -1,9 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/04 12:30:17 by aahlyel           #+#    #+#             */
+/*   Updated: 2023/01/04 12:33:57 by aahlyel          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
-#include <errno.h>
-#include <fcntl.h>
-
-char *check_command(char **path, char *command)
+/// @brief
+/// @param path		double pointer to lists of paths in the env
+/// @param command	command line
+/// @return			pointer to the path of command or NULL if doesnt exist
+char	*check_command(char **path, char *command)
 {
 	char	*cmd_path;
 	char	*tmp;
@@ -26,6 +39,11 @@ char *check_command(char **path, char *command)
 	return (cmd_path);
 }
 
+/// @brief
+/// @param argv
+/// @param envp
+/// @param pipex
+/// @return
 int	child_process1(char **argv, char **envp, t_pipex pipex)
 {
 	pipex.pid1 = fork();
@@ -41,6 +59,11 @@ int	child_process1(char **argv, char **envp, t_pipex pipex)
 	return (0);
 }
 
+/// @brief
+/// @param argv
+/// @param envp
+/// @param pipex
+/// @return
 int	child_process2(char **argv, char **envp, t_pipex pipex)
 {
 	pipex.pid2 = fork();
@@ -56,6 +79,12 @@ int	child_process2(char **argv, char **envp, t_pipex pipex)
 	return (0);
 }
 
+/// @brief
+/// @param open
+/// @param pipe
+/// @param command
+/// @param child_process
+/// @return
 int	destroy(int open, int pipe, int command, int child_process)
 {
 	if (open)
@@ -68,7 +97,12 @@ int	destroy(int open, int pipe, int command, int child_process)
 		return (perror("Error child process"), 1);
 }
 
-int main(int argc, char **argv, char **envp)
+/// @brief
+/// @param argc
+/// @param argv
+/// @param envp
+/// @return
+int	main(int argc, char **argv, char **envp)
 {
 	t_pipex	pipex;
 
@@ -79,19 +113,20 @@ int main(int argc, char **argv, char **envp)
 		return (destroy(1, 0, 0, 0));
 	if (pipe(pipex.fd) == -1)
 		return (close(pipex.fd[0]), close(pipex.fd[1]),
-		destroy(0, 1, 0, 0));
+			destroy(0, 1, 0, 0));
 	pipex.path = ft_split(&envp[6][5], ':');
 	pipex.cmd1 = check_command(pipex.path, *ft_split(argv[2], ' '));
 	pipex.cmd2 = check_command(pipex.path, *ft_split(argv[3], ' '));
 	if (!pipex.cmd1 || !pipex.cmd2)
 		return (close(pipex.fd[0]), close(pipex.fd[1]),
-		destroy(0, 0, 1, 0));
-	if (!child_process1(argv, envp, pipex) || !child_process2(argv, envp, pipex))
+			destroy(0, 0, 1, 0));
+	if (!child_process1(argv, envp, pipex)
+		|| !child_process2(argv, envp, pipex))
 		return (close(pipex.fd[0]), close(pipex.fd[1]),
-		destroy(0, 0, 0, 1));
+			destroy(0, 0, 0, 1));
 	close(pipex.fd[0]);
 	close(pipex.fd[1]);
 	waitpid(pipex.pid1, NULL, 0);
 	waitpid(pipex.pid2, NULL, 0);
-	return 0;
+	return (0);
 }

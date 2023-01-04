@@ -2,6 +2,8 @@
 # define PIPEX_H
 
 #include "libft/libft.h"
+#include <errno.h>
+#include <fcntl.h>
 
 typedef struct s_pipex
 {
