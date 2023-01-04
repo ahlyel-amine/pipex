@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/04 12:30:17 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/04 12:33:57 by aahlyel          ###   ########.fr       */
+/*   Created: 2023/01/04 13:04:09 by aahlyel           #+#    #+#             */
+/*   Updated: 2023/01/04 13:04:12 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ char	*check_command(char **path, char *command)
 	char	*cmd_path;
 	char	*tmp;
 	int		i;
-	int		j;
 
 	i = -1;
 	cmd_path = NULL;
@@ -42,18 +41,18 @@ char	*check_command(char **path, char *command)
 /// @brief
 /// @param argv
 /// @param envp
-/// @param pipex
+/// @param pi
 /// @return
-int	child_process1(char **argv, char **envp, t_pipex pipex)
+int	child_process1(char **argv, char **envp, t_pipex pi)
 {
-	pipex.pid1 = fork();
-	if (!pipex.pid1)
+	pi.pid1 = fork();
+	if (!pi.pid1)
 	{
-		dup2(pipex.fd[1], STDOUT_FILENO);
-		close(pipex.fd[1]);
-		close(pipex.fd[0]);
-		dup2(pipex.infile, STDIN_FILENO);
-		execve(pipex.cmd1, ft_split(argv[2], ' '), envp);
+		dup2(pi.fd[1], STDOUT_FILENO);
+		close(pi.fd[1]);
+		close(pi.fd[0]);
+		dup2(pi.infile, STDIN_FILENO);
+		execve(pi.cmd1, ft_split(argv[2], ' '), envp);
 		return (1);
 	}
 	return (0);
@@ -62,18 +61,18 @@ int	child_process1(char **argv, char **envp, t_pipex pipex)
 /// @brief
 /// @param argv
 /// @param envp
-/// @param pipex
+/// @param pi
 /// @return
-int	child_process2(char **argv, char **envp, t_pipex pipex)
+int	child_process2(char **argv, char **envp, t_pipex pi)
 {
-	pipex.pid2 = fork();
-	if (!pipex.pid2)
+	pi.pid2 = fork();
+	if (!pi.pid2)
 	{
-		dup2(pipex.fd[0], STDIN_FILENO);
-		close(pipex.fd[1]);
-		close(pipex.fd[0]);
-		dup2(pipex.outfile, STDOUT_FILENO);
-		execve(pipex.cmd2, ft_split(argv[3], ' '), envp);
+		dup2(pi.fd[0], STDIN_FILENO);
+		close(pi.fd[1]);
+		close(pi.fd[0]);
+		dup2(pi.outfile, STDOUT_FILENO);
+		execve(pi.cmd2, ft_split(argv[3], ' '), envp);
 		return (1);
 	}
 	return (0);
@@ -95,6 +94,7 @@ int	destroy(int open, int pipe, int command, int child_process)
 		return (perror("Error Command not found"), 1);
 	else if (child_process)
 		return (perror("Error child process"), 1);
+	return (0);
 }
 
 /// @brief
@@ -104,29 +104,29 @@ int	destroy(int open, int pipe, int command, int child_process)
 /// @return
 int	main(int argc, char **argv, char **envp)
 {
-	t_pipex	pipex;
+	t_pipex	pi;
 
 	unlink(argv[argc - 1]);
-	pipex.infile = open(argv[1], O_CREAT | O_RDONLY, 0644);
-	pipex.outfile = open(argv[argc - 1], O_CREAT | O_RDWR, 0644);
-	if (pipex.infile < 0 || pipex.outfile < 0)
+	pi.infile = open(argv[1], O_CREAT | O_RDONLY, 0644);
+	pi.outfile = open(argv[argc - 1], O_CREAT | O_RDWR, 0644);
+	if (pi.infile < 0 || pi.outfile < 0)
 		return (destroy(1, 0, 0, 0));
-	if (pipe(pipex.fd) == -1)
-		return (close(pipex.fd[0]), close(pipex.fd[1]),
+	if (pipe(pi.fd) == -1)
+		return (close(pi.fd[0]), close(pi.fd[1]),
 			destroy(0, 1, 0, 0));
-	pipex.path = ft_split(&envp[6][5], ':');
-	pipex.cmd1 = check_command(pipex.path, *ft_split(argv[2], ' '));
-	pipex.cmd2 = check_command(pipex.path, *ft_split(argv[3], ' '));
-	if (!pipex.cmd1 || !pipex.cmd2)
-		return (close(pipex.fd[0]), close(pipex.fd[1]),
+	pi.path = ft_split(&envp[6][5], ':');
+	pi.cmd1 = check_command(pi.path, *ft_split(argv[2], ' '));
+	pi.cmd2 = check_command(pi.path, *ft_split(argv[3], ' '));
+	if (!pi.cmd1 || !pi.cmd2)
+		return (close(pi.fd[0]), close(pi.fd[1]),
 			destroy(0, 0, 1, 0));
-	if (!child_process1(argv, envp, pipex)
-		|| !child_process2(argv, envp, pipex))
-		return (close(pipex.fd[0]), close(pipex.fd[1]),
+	if (child_process1(argv, envp, pi)
+		|| child_process2(argv, envp, pi))
+		return (close(pi.fd[0]), close(pi.fd[1]),
 			destroy(0, 0, 0, 1));
-	close(pipex.fd[0]);
-	close(pipex.fd[1]);
-	waitpid(pipex.pid1, NULL, 0);
-	waitpid(pipex.pid2, NULL, 0);
+	if (close(pi.fd[0]) || close(pi.fd[1]))
+		return (perror("file does not closed correctly"), 1);
+	if (waitpid(pi.pid1, NULL, 0) == -1 || waitpid(pi.pid2, NULL, 0) == -1)
+		return (perror("Error child process does not exit correctly"), 1);
 	return (0);
 }

@@ -2,6 +2,8 @@
 	"files.associations": {
 		"*.excalidraw": "json",
 		"*.excalidrawlib": "json",
-		"errno.h": "c"
+		"errno.h": "c",
+		"libft.h": "c",
+		"fcntl.h": "c"
 	}
 }
