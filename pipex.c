@@ -106,7 +106,6 @@ char	*env(char **envp)
 	i = 0;
 	while (*(envp + i))
 	{
-		// printf("%s\n",*(envp + i));
 		if (ft_strnstr(*(envp + i), "PATH=", 5))
 			return (ft_substr(*(envp + i), 5,
 				ft_strlen((*(envp + i)) + 5)));
