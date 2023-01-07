@@ -20,10 +20,12 @@ OBJS =	pipex.o\
 		libft/ft_substr.o\
 		libft/ft_split.o\
 		libft/ft_strjoin.o\
+		libft/ft_strnstr.o\
+		libft/ft_substr.o\
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-NAME = pipex
+NAME = pipex.a
 AR = ar -rcs
 
 all : ${NAME} compile

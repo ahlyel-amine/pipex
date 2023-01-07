@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include <sys/wait.h>
+#include <fcntl.h>
 
 /// @brief
 /// @param path		double pointer to lists of paths in the env
@@ -97,6 +99,22 @@ int	destroy(int open, int pipe, int command, int child_process)
 	return (0);
 }
 
+char	*env(char **envp)
+{
+	int	i;
+
+	i = 0;
+	while (*(envp + i))
+	{
+		// printf("%s\n",*(envp + i));
+		if (ft_strnstr(*(envp + i), "PATH=", 5))
+			return (ft_substr(*(envp + i), 5,
+				ft_strlen((*(envp + i)) + 5)));
+		i++;
+	}
+	return (NULL);
+}
+
 /// @brief
 /// @param argc
 /// @param argv
@@ -114,7 +132,7 @@ int	main(int argc, char **argv, char **envp)
 	if (pipe(pi.fd) == -1)
 		return (close(pi.fd[0]), close(pi.fd[1]),
 			destroy(0, 1, 0, 0));
-	pi.path = ft_split(&envp[6][5], ':');
+	pi.path = ft_split(env(envp), ':');
 	pi.cmd1 = check_command(pi.path, *ft_split(argv[2], ' '));
 	pi.cmd2 = check_command(pi.path, *ft_split(argv[3], ' '));
 	if (!pi.cmd1 || !pi.cmd2)
