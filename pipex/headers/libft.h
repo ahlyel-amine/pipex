@@ -6,22 +6,23 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:24:21 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/12 16:57:08 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/12 17:49:17 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# include "pipex.h"
+// # include "pipex.h"
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdio.h>
 
-// typedef struct s_list
-// {
-// 	void			*content;
-// 	struct s_list	*next;
-// }	t_list;
+typedef struct s_list
+{
+	void			*content;
+	struct s_list	*next;
+}	t_list;
 
 int		ft_atoi(const char *str);
 void	ft_bzero(void *s, size_t n);

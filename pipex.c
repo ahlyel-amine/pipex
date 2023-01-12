@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 13:04:09 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/12 13:44:28 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/12 19:29:45 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 /// @brief
 /// @param path		double pointer to lists of paths in the env
 /// @param command	command line
-/// @return			pointer to the path of command or NULL if doesnt exist
+/// @return	pointer to the path of command or NULL if doesnt exist
 char	*check_command(char **path, char *command)
 {
 	char	*cmd_path;

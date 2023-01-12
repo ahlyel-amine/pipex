@@ -6,27 +6,13 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:01:03 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/12 17:04:07 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/12 19:26:47 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "headers/pipex.h"
 #include "headers/libft.h"
 
-char	*env(char **envp)
-{
-	int     i;
-
-	i = 0;
-	while (*(envp + i))
-	{
-		if (ft_strnstr(*(envp + i), "PATH=", 5))
-			return (ft_substr(*(envp + i), 5,
-					ft_strlen((*(envp + i)) + 5)));
-		i++;
-	}
-	return (NULL);
-}
 
 int main(int argc, char **argv, char **envp)
 {
@@ -35,8 +21,22 @@ int main(int argc, char **argv, char **envp)
 
 	garbg = NULL;
 	arguments = ft_malloc(malloc(sizeof(t_args)), &garbg);
-	(*arguments).path = ft_malloc(ft_split(env(envp), ':'), &garbg); //need impelement garbage collector in ft_split
+	(*arguments).path = ft_malloc(ft_split(env_path(envp), ':'), &garbg); //need impelement garbage collector in ft_split
 	get_args(&arguments, argv, argc, &garbg);
+	// int i =0, j = 0, k = 0;
+	// while (*((*arguments).cmds_path + k))
+	// {
+	// 	printf("%s\n", *((*arguments).cmds_path + k++));
+	// }
+	// while (((*arguments).cmds)[i])
+	// {
+	// 	j = 0;
+	// 	while (((*arguments).cmds)[i][j])
+	// 	{
+	// 		printf("%s\n", ((*arguments).cmds)[i][j++]);
+	// 	}
+	// 	i++;
+	// }
 	// char **ls;
 	// ls = malloc(3 * sizeof(char *));
 	// *ls = malloc(3);

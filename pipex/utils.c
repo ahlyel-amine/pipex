@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:27:09 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/12 16:31:56 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/12 18:39:26 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,6 @@ void	*ft_malloc(void *pointer, t_list **garbg)
 		free(pointer);
 		ft_exit("Allocation failure", garbg);
 	}
-	ft_lstadd_back(&garbg, new);
+	ft_lstadd_back(garbg, new);
 	return (pointer);
 }
