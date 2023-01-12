@@ -1,0 +1,11 @@
+{
+	"files.associations": {
+		"*.excalidraw": "json",
+		"*.excalidrawlib": "json",
+		"pipex.h": "c",
+		"../headers/libft.h": "c",
+		"libft.h": "c",
+		"string.h": "c",
+		"stddef.h": "c"
+	}
+}

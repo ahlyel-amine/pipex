@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 13:04:09 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/12 13:13:52 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/12 13:44:28 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,27 +80,19 @@ int	child_process2(char **argv, char **envp, t_pipex pi)
 	return (0);
 }
 
-/// @brief
-/// @param open
-/// @param pipe
-/// @param command
-/// @param child_process
-/// @return
-int	destroy(int open, int pipe, int command, int child_process)
-{
-	if (open)
-		return (perror("Error file"), 1);
-	else if (pipe)
-		return (perror("Error pipe"), 1);
-	else if (command)
-		return (perror("Error Command not found"), 1);
-	else if (child_process)
-		return (perror("Error child process"), 1);
-	return (0);
-}
-
 char	*env(char **envp)
 {
+	int	i;
+
+	i = 0;
+	while (*(envp + i))
+	{
+		if (ft_strnstr(*(envp + i), "PATH=", 5))
+			return (ft_substr(*(envp + i), 5,
+				ft_strlen((*(envp + i)) + 5)));
+		i++;
+	}
+	return (NULL);
 }
 
 /// @brief
@@ -113,26 +105,23 @@ int	main(int argc, char **argv, char **envp)
 	t_pipex	pi;
 
 	unlink(argv[argc - 1]);
-	pi.infile = open(argv[1], O_CREAT | O_RDONLY, 0644);
-	pi.outfile = open(argv[argc - 1], O_CREAT | O_RDWR, 0644);
+	pi.infile = open(argv[1], O_CREAT | O_RDONLY, RDWR);
+	pi.outfile = open(argv[argc - 1], O_CREAT | O_RDWR, RDWR);
 	if (pi.infile < 0 || pi.outfile < 0)
-		return (destroy(1, 0, 0, 0));
+		ft_exit("Error file");
 	if (pipe(pi.fd) == -1)
-		return (close(pi.fd[0]), close(pi.fd[1]),
-			destroy(0, 1, 0, 0));
+		close(pi.fd[0]), close(pi.fd[1]), ft_exit("Error pipe");
 	pi.path = ft_split(env(envp), ':');
 	pi.cmd1 = check_command(pi.path, *ft_split(argv[2], ' '));
 	pi.cmd2 = check_command(pi.path, *ft_split(argv[3], ' '));
 	if (!pi.cmd1 || !pi.cmd2)
-		return (close(pi.fd[0]), close(pi.fd[1]),
-			destroy(0, 0, 1, 0));
+		close(pi.fd[0]), close(pi.fd[1]), ft_exit("Error Command not found");
 	if (child_process1(argv, envp, pi)
 		|| child_process2(argv, envp, pi))
-		return (close(pi.fd[0]), close(pi.fd[1]),
-			destroy(0, 0, 0, 1));
+		close(pi.fd[0]), close(pi.fd[1]), ft_exit("Error child process");
 	if (close(pi.fd[0]) || close(pi.fd[1]))
-		return (perror("file does not closed correctly"), 1);
+		ft_exit("file does not closed correctly");
 	if (waitpid(pi.pid1, NULL, 0) == -1 || waitpid(pi.pid2, NULL, 0) == -1)
-		return (perror("Error child process does not exit correctly"), 1);
+		ft_exit("Error child process does not exit correctly");
 	return (0);
 }

@@ -1,0 +1,12 @@
+total 40
+drwxr-xr-x  11 aahlyel  candidate   374B Jan 12 14:19 .
+drwxr-xr-x  17 aahlyel  candidate   578B Jan 12 13:11 ..
+drwxr-xr-x  14 aahlyel  candidate   476B Jan 12 14:16 .git
+-rw-r--r--   1 aahlyel  candidate    78B Jan 12 13:11 .gitmodules
+drwxr-xr-x   3 aahlyel  candidate   102B Jan 12 13:11 .vscode
+-rw-r--r--   1 aahlyel  candidate   1.5K Jan 12 13:50 Makefile
+-rw-r--r--   1 aahlyel  candidate     0B Jan 12 14:19 file
+drwxr-xr-x   9 aahlyel  candidate   306B Jan 12 14:07 pipex
+-rw-r--r--   1 aahlyel  candidate   3.4K Jan 12 13:44 pipex.c
+-rw-r--r--   1 aahlyel  candidate   1.4K Jan 12 13:42 pipex.h
+-rw-r--r--   1 aahlyel  candidate   1.0K Jan 12 13:21 utils.c
