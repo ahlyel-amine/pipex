@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 13:04:09 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/04 13:04:12 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/12 13:13:52 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,17 +101,6 @@ int	destroy(int open, int pipe, int command, int child_process)
 
 char	*env(char **envp)
 {
-	int	i;
-
-	i = 0;
-	while (*(envp + i))
-	{
-		if (ft_strnstr(*(envp + i), "PATH=", 5))
-			return (ft_substr(*(envp + i), 5,
-				ft_strlen((*(envp + i)) + 5)));
-		i++;
-	}
-	return (NULL);
 }
 
 /// @brief
