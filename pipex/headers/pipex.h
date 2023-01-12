@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:20 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/12 19:23:25 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/12 21:19:27 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PIPEX_H
 
 # include "libft.h"
+# include <unistd.h>
 # include <sys/errno.h>
 # include <fcntl.h>
 
@@ -28,6 +29,7 @@ typedef struct s_args
 	char	**cmds_path;
 	int		infile;
 	int		outfile;
+	int		*pids;
 	int		pid1;
 	int		pid2;
 	int		fd[2];

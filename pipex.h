@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 13:04:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/12 19:30:52 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/12 21:12:03 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef struct s_pipex
 	char	*cmd2;
 	int		infile;
 	int		outfile;
+	int		*pids;
 	int		pid1;
 	int		pid2;
 	int		fd[2];
