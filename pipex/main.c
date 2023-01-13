@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:01:03 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/12 21:23:48 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/13 10:20:33 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,26 @@ int main(int argc, char **argv, char **envp)
 	t_list	*garbg;
 	int	i;
 
-	i = 0;
+	i = 1;
 	garbg = NULL;
 	arguments = ft_malloc(malloc(sizeof(t_args)), &garbg);
 	(*arguments).path = ft_malloc(ft_split(env_path(envp), ':'), &garbg); //need impelement garbage collector in ft_split
 	get_args(&arguments, argv, argc, &garbg);
 	if (pipe(arguments->fd) == -1)
 		ft_exit("Error function pipe failure", &garbg);
-	(*arguments).pids = ft_malloc(malloc(sizeof(int) * argc - 2));
-	(*arguments).pids[argc - 3] = NULL;
-	while (i++ < argc - 2)
+	(*arguments).pids = ft_malloc(malloc(sizeof(int) * argc - 2), &garbg);
+	// (*arguments).pids[argc - 3] = ;
+	child_process(arguments, &garbg, 0, envp);
+	waitpid((*arguments).pids[0], NULL, 0);
+	while (i < argc - 4)
 	{
-		if (child_process(arguments, &garbage, i, envp))
+		printf("%d\n",i);
+		childs_process(arguments, &garbg, i, envp);
+		puts("allo");
+		waitpid((*arguments).pids[i], NULL, 0);
+		i++;
 	}
-	// int i =0, j = 0, k = 0;
+	// int  j = 0, k = 0;
 	// while (*((*arguments).cmds_path + k))
 	// {
 	// 	printf("%s\n", *((*arguments).cmds_path + k++));

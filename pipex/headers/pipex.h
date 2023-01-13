@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:20 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/12 21:19:27 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/13 10:15:44 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,22 @@ void	get_commands(t_args **arguments, char **argv, int argc, t_list **garbg);
 /// @param cmdind indice of a command
 /// @return command path
 char	*check_commands(t_args **arguments, t_list **garbg, int cmdind);
+
+
+/// @brief
+/// @param arguments
+/// @param garbage
+/// @param pid_indice
+/// @param envp
+/// @return
+int	child_process(t_args *arguments, t_list **garbage, int pid_indice, char **envp);
+
+/// @brief
+/// @param arguments
+/// @param garbage
+/// @param pid_indice
+/// @param envp
+/// @return
+int	childs_process(t_args *arguments, t_list **garbage, int pid_indice, char **envp);
 
 #endif

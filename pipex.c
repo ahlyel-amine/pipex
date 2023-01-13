@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 13:04:09 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/12 19:29:45 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/13 10:00:24 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,6 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 
-/// @brief
-/// @param path		double pointer to lists of paths in the env
-/// @param command	command line
-/// @return	pointer to the path of command or NULL if doesnt exist
 char	*check_command(char **path, char *command)
 {
 	char	*cmd_path;
@@ -40,11 +36,6 @@ char	*check_command(char **path, char *command)
 	return (cmd_path);
 }
 
-/// @brief
-/// @param argv
-/// @param envp
-/// @param pi
-/// @return
 int	child_process1(char **argv, char **envp, t_pipex pi)
 {
 	pi.pid1 = fork();
@@ -60,11 +51,6 @@ int	child_process1(char **argv, char **envp, t_pipex pi)
 	return (0);
 }
 
-/// @brief
-/// @param argv
-/// @param envp
-/// @param pi
-/// @return
 int	child_process2(char **argv, char **envp, t_pipex pi)
 {
 	pi.pid2 = fork();
@@ -95,11 +81,6 @@ char	*env(char **envp)
 	return (NULL);
 }
 
-/// @brief
-/// @param argc
-/// @param argv
-/// @param envp
-/// @return
 int	main(int argc, char **argv, char **envp)
 {
 	t_pipex	pi;
