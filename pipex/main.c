@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:01:03 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/13 10:20:33 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/13 19:40:51 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,30 @@ int main(int argc, char **argv, char **envp)
 	i = 1;
 	garbg = NULL;
 	arguments = ft_malloc(malloc(sizeof(t_args)), &garbg);
-	(*arguments).path = ft_malloc(ft_split(env_path(envp), ':'), &garbg); //need impelement garbage collector in ft_split
+	(*arguments).path = ft_split(env_path(envp, &garbg), ':', &garbg); //need impelement garbage collector in ft_split
 	get_args(&arguments, argv, argc, &garbg);
-	if (pipe(arguments->fd) == -1)
-		ft_exit("Error function pipe failure", &garbg);
+	// if (pipe(arguments->fd) == -1)
+	// 	ft_exit("Error function pipe failure", &garbg);
 	(*arguments).pids = ft_malloc(malloc(sizeof(int) * argc - 2), &garbg);
-	// (*arguments).pids[argc - 3] = ;
-	child_process(arguments, &garbg, 0, envp);
-	waitpid((*arguments).pids[0], NULL, 0);
+	// // (*arguments).pids[argc - 3] = ;
+	if (pipe((*arguments).fd) == -1)
+		ft_exit("Error function pipe() failure", &garbg);
+	first_child_process(arguments, &garbg, 0, envp);
 	while (i < argc - 4)
 	{
-		printf("%d\n",i);
-		childs_process(arguments, &garbg, i, envp);
-		puts("allo");
-		waitpid((*arguments).pids[i], NULL, 0);
-		i++;
+		middle_childs_process(arguments, &garbg, i++, envp);
+		// printf("%d\n", waitpid((*arguments).pids[i++], NULL, 0));
 	}
+	last_child_process(arguments, &garbg, i, envp);
+	// int j = 0;
+	// while (j< argc - 4)
+	// {
+	// printf("a\n%d\n", waitpid((*arguments).pids[j++], NULL, 0));
+	// }
+
+	// waitpid((*arguments).pids[i], NULL, 0);
+	// waitpid((*arguments).pids[i], NULL, 0);
+	ft_lstclear(&garbg, free);
 	// int  j = 0, k = 0;
 	// while (*((*arguments).cmds_path + k))
 	// {

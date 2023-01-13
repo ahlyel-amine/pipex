@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:20 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/13 10:15:44 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/13 19:41:23 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 # define STDERR 2
 # define RDWR 0644
-
+char	**ft_split(char const *s, char c, t_list **garbg);
 /// @brief argumets saver structur
 typedef struct s_args
 {
@@ -63,7 +63,7 @@ void	*ft_malloc(void *pointer, t_list **garbg);
 /// @brief get environment path
 /// @param envp environment variables
 /// @return environment path
-char	*env_path(char **envp);
+char	*env_path(char **envp, t_list **garbg);
 
 /// @brief this function translate/check/save the program arguments
 /// @param arguments arguments saver structur
@@ -92,7 +92,7 @@ char	*check_commands(t_args **arguments, t_list **garbg, int cmdind);
 /// @param pid_indice
 /// @param envp
 /// @return
-int	child_process(t_args *arguments, t_list **garbage, int pid_indice, char **envp);
+int	child_process(t_args *arguments, t_list **garbg, int pid_indice, char **envp);
 
 /// @brief
 /// @param arguments
@@ -100,6 +100,8 @@ int	child_process(t_args *arguments, t_list **garbage, int pid_indice, char **en
 /// @param pid_indice
 /// @param envp
 /// @return
-int	childs_process(t_args *arguments, t_list **garbage, int pid_indice, char **envp);
+int	last_child_process(t_args *arguments, t_list **garbg, int pid_indice, char **envp);
+int	first_child_process(t_args *arguments, t_list **garbg, int pid_indice, char **envp);
+int	middle_childs_process(t_args *arguments, t_list **garbg, int pid_indice, char **envp);
 
 #endif
