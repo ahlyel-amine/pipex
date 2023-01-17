@@ -6,14 +6,14 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 13:04:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/12 21:12:03 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/17 16:26:23 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
-#include "pipex/libft/libft.h"
+# include "../libft/libft.h"
 #include <sys/errno.h>
 #include <fcntl.h>
 
