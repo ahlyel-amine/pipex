@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 18:03:02 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/12 14:03:20 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/17 00:18:52 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 	char	*dest;
 	size_t	s_len;
 
+	dest = NULL;
 	if (!s)
 		return (NULL);
 	if (start >= ft_strlen(s))

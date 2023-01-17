@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 17:13:32 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/12 14:03:20 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/17 00:19:13 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ char	*ft_strdup(const char *s1)
 	char	*dst;
 	int		count;
 
+	dst = NULL;
 	count = -1;
 	dst = (char *)ft_calloc((ft_strlen(s1) + 1), sizeof(char));
 	if (!dst)

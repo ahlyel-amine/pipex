@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_split_garbg.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:39:09 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/13 16:46:19 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/17 01:30:19 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	word_count(char *s, char c);
 static int	alloc_fill_strs(char **splited, char *s, char c, int wc, t_list **garbg);
 
-char	**ft_split(char const *s, char c, t_list **garbg)
+char	**ft_split_garbg(char const *s, char c, t_list **garbg)
 {
 	char	**splited;
 	int		wc;
@@ -23,16 +23,11 @@ char	**ft_split(char const *s, char c, t_list **garbg)
 	if (!s)
 		return (NULL);
 	wc = word_count((char *)s, c);
-	// splited = ft_malloc(malloc((wc + 1) * sizeof(char *)), garbg);
 	splited = ft_malloc(malloc((wc + 1) * sizeof(char *)), garbg);
 	if (!splited)
 		return (NULL);
 	if (alloc_fill_strs(splited, (char *)s, c, wc, garbg))
-	{
-		while (*splited)
-			free(*splited++);
-		free(splited);
-	}
+		ft_exit("Allocation faillure", garbg);
 	return (splited);
 }
 
