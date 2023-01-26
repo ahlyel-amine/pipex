@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:20 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/17 16:25:57 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/26 19:27:49 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,13 @@
 # include <sys/errno.h>
 # include <fcntl.h>
 
-# define STDERR 2
 # define RDWR 0644
 
 /// @brief argumets saver structur
 typedef struct s_args
 {
+	int		ac;
+	char	**av;
 	char	**path;
 	char	***cmds;
 	char	**cmds_path;
@@ -32,7 +33,7 @@ typedef struct s_args
 	int		*pids;
 	int		pid1;
 	int		pid2;
-	int		fd[2];
+	int		(*fd)[2];
 }	t_args;
 
 /// @brief garbage collector structur
@@ -70,14 +71,14 @@ char	*env_path(char **envp, t_list **garbg);
 /// @param args args saver structur
 /// @param argv	program args
 /// @param argc number of program args
-void	get_args(t_args **args, char **argv, int argc, t_list **garbg);
+void	get_args(t_args **args, t_list **garbg);
 
 /// @brief this function take commands from args
 /// @param args args saver structur
 /// @param argv program args
 /// @param argc number of program args
 /// @param garbg garbage collector linked list
-void	get_commands(t_args **args, char **argv, int argc, t_list **garbg);
+void	get_commands(t_args **args, t_list **garbg);
 
 /// @brief this function check if commands valid
 /// @param args args saver structur
@@ -86,6 +87,11 @@ void	get_commands(t_args **args, char **argv, int argc, t_list **garbg);
 /// @return command path
 char	*check_commands(t_args **args, t_list **garbg, int cmdind);
 
+/// @brief
+/// @param garbg
+/// @param args
+/// @param envp
+void	ft_parse(t_list **garbg, t_args **args, char **envp);
 
 /// @brief
 /// @param args
@@ -95,14 +101,6 @@ char	*check_commands(t_args **args, t_list **garbg, int cmdind);
 /// @return
 int	child_process(t_args *args, t_list **garbg, int pid_indice, char **envp);
 
-/// @brief
-/// @param args
-/// @param garbage
-/// @param pid_indice
-/// @param envp
-/// @return
-int	last_child_process(t_args *args, t_list **garbg, int pid_indice, char **envp);
-int	first_child_process(t_args *args, t_list **garbg, int pid_indice, char **envp);
-int	middle_childs_process(t_args *args, t_list **garbg, int pid_indice, char **envp);
+void	first_child_process(t_args *args, t_list **garbg, char **envp, int i);
 
 #endif

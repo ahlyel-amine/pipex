@@ -6,28 +6,35 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/17 01:30:10 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/26 19:29:12 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "headers/pipex.h"
 #include "headers/libft.h"
 
-void	get_args(t_args **args, char **argv, int argc, t_list **garbg)
+void	ft_parse(t_list **garbg, t_args **args, char **envp)
 {
-	if (argc < 5)
+	if (!envp)
+		ft_exit("Invalid envirenment", garbg);
+	(*args)->path = ft_split_garbg(env_path(envp, garbg), ':', garbg);
+	get_args(args, garbg);
+}
+void	get_args(t_args **args, t_list **garbg)
+{
+	if ((*args)->ac < 5)
 		ft_exit("Syntax Error, Expected :\
  ./pipex file1 cmd1 cmd2 ... cmdn file2", garbg);
-	(*args)->infile = open(argv[1],
-			O_CREAT | O_TRUNC/* | O_NONBLOCK*/ | O_RDWR, RDWR);
-	(*args)->outfile = open(argv[argc - 1],
+	(*args)->infile = open((*args)->av[1], \
+	O_TRUNC/* | O_NONBLOCK*/ | O_RDWR, RDWR);
+	(*args)->outfile = open((*args)->av[(*args)->ac - 1],
 			O_CREAT | O_TRUNC/* | O_NONBLOCK*/ | O_RDWR, RDWR);
 	if ((*args)->outfile < 0 || (*args)->infile < 0)
 		ft_exit("Error cannot open file", garbg);
-	get_commands(args, argv, argc, garbg);
+	get_commands(args, garbg);
 }
 
-void	get_commands(t_args **args, char **argv, int argc, t_list **garbg)
+void	get_commands(t_args **args, t_list **garbg)
 {
 	char	*tmp;
 	int		i;
@@ -36,14 +43,14 @@ void	get_commands(t_args **args, char **argv, int argc, t_list **garbg)
 	tmp = NULL;
 	k = 0;
 	i = 2;
-	(*args)->cmds = ft_malloc(malloc(sizeof(char **) * argc - i), garbg);
+	(*args)->cmds = ft_malloc(malloc(sizeof(char **) * (*args)->ac - i), garbg);
 	(*args)->cmds_path = \
-		ft_malloc(malloc(sizeof(char *) * argc - i), garbg);
-	(*args)->cmds[argc - i - 1] = NULL;
-	(*args)->cmds_path[argc - i - 1] = NULL;
-	while (i < argc - 1)
+		ft_malloc(malloc(sizeof(char *) * (*args)->ac - i), garbg);
+	(*args)->cmds[(*args)->ac - i - 1] = NULL;
+	(*args)->cmds_path[(*args)->ac - i - 1] = NULL;
+	while (i < (*args)->ac - 1)
 	{
-		(*args)->cmds[k] = ft_split_garbg(argv[i], ' ', garbg);
+		(*args)->cmds[k] = ft_split_garbg((*args)->av[i], ' ', garbg);
 		tmp = check_commands(args, garbg, k);
 		(*args)->cmds_path[k++] = ft_malloc(ft_strdup(tmp), garbg);
 		i++;
@@ -68,7 +75,10 @@ char	*check_commands(t_args **args, t_list **garbg, int cmdind)
 		j++;
 	}
 	if (acs == -1)
-		ft_exit("Error : command not found", garbg);
+	{
+		ft_exit(ft_malloc(ft_strjoin("Error : Cannot find command ", \
+		(*args)->cmds[cmdind][0]), garbg), garbg);
+	}
 	return (tmp);
 }
 
@@ -84,5 +94,5 @@ char	*env_path(char **envp, t_list **garbg)
 						ft_strlen(envp[i] + 5)), garbg));
 		i++;
 	}
-	return (NULL);
+	return (ft_exit("Envirenment PATH NOT FOUND", garbg), NULL);
 }
