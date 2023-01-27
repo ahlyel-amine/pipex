@@ -1,3 +1,78 @@
+<h1>Project structur</h1>
+
+```
+/pipex         (root project folder)
+    |
+    |____/bin        (the final executable file)
+    |
+    |___/include     (header files, .h)
+    |
+    |____/src        (source files, .c)
+    |
+    |____/obj        (where the generated .o files will be)
+    |
+    |____/lib        (any library dependences)
+    |
+    |____Makefile    (make instructions file)
+    |
+    |____README      (general readme of the project)
+    |
+    |___/bonus
+        |
+        |____/bin        (the final executable file)
+        |
+        |___/include     (header files, .h)
+        |
+        |____/src        (every source file, .c and .c)
+        |
+        |____/obj        (where the generated .o files will be)
+        |
+        |____/lib        (any library dependences)
+        |
+        |____Makefile    (make instructions file)
+
+```
+<h1>Usage</h1>
+
+<h3>Mandatory part</h3>
+
+open a terminal window in the project directory
+~~~
+$> make
+~~~
+for mandatory part you can execute commands like
+~~~
+$> bin/pipex "infile" "command1" "command2" "outfile"
+~~~
+and you can find the output in the outfile exist in the root directory of the project
+
+<h3>bonus part</h3>
+
+open a terminal window in the project directory
+~~~
+$> make bonus
+~~~
+for bonus part you can execute commands like
+~~~
+$> bonus/bin/pipex "infile" "command 1" "command 2" ... "command n" "outfile"
+~~~
+and you can find the output in the outfile exist in the bonus directory
+
+<h3>Cleaning</h3>
+
+to delete object file
+~~~
+$> make clean
+~~~
+
+to delete object files and executable file
+
+~~~
+$> make fclean
+~~~
+
+<h1>Project</h1>
+
 ```
 main process
 |
