@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:20 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/26 19:27:49 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/27 16:17:49 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_args
 	char	**path;
 	char	***cmds;
 	char	**cmds_path;
+	char	**heredoc;
 	int		infile;
 	int		outfile;
 	int		*pids;
@@ -93,14 +94,12 @@ char	*check_commands(t_args **args, t_list **garbg, int cmdind);
 /// @param envp
 void	ft_parse(t_list **garbg, t_args **args, char **envp);
 
+
 /// @brief
 /// @param args
-/// @param garbage
-/// @param pid_indice
+/// @param garbg
 /// @param envp
-/// @return
-int	child_process(t_args *args, t_list **garbg, int pid_indice, char **envp);
-
-void	first_child_process(t_args *args, t_list **garbg, char **envp, int i);
+/// @param i
+void	exec_command(t_args *args, t_list **garbg, char **envp, int i);
 
 #endif
