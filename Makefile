@@ -6,7 +6,7 @@
 #    By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/04 13:04:18 by aahlyel           #+#    #+#              #
-#    Updated: 2023/01/27 19:21:52 by aahlyel          ###   ########.fr        #
+#    Updated: 2023/01/27 19:39:02 by aahlyel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -122,5 +122,5 @@ fclean : clean
 
 re : fclean all
 
-.PHONY : fclean clean compile re
+.PHONY : fclean clean re ${NAME} ${dir} ${BONUS_NAME} ${bonus_dir}
 .SILENT : fclean clean re all ${NAME} ${dir} ${BONUS_NAME} ${bonus_dir}
