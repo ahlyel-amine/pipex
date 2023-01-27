@@ -1,3 +1,4 @@
+```
 main process
 |
 |
@@ -27,5 +28,6 @@ main process
         |
         |___________ parent process                    |
                 |                                      |
-                |  dup2(outfile, STDOUT)               | 	< for last command
+                |  dup2(outfile, STDOUT)               |  < for last command
                 |__execve(command path, command, envp) |
+```
