@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/27 19:07:31 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/27 18:29:28 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void	ft_parse(t_list **garbg, t_args **args, char **envp)
 }
 void	get_args(t_args **args, t_list **garbg)
 {
-	if ((*args)->ac != 5)
+	if ((*args)->ac < 5)
 		ft_exit("Syntax Error, Expected :\
- ./pipex file1 cmd1 cmd2 file2", garbg);
+ ./pipex file1 cmd1 cmd2 ... cmdn file2", garbg);
 	(*args)->infile = open((*args)->av[1], \
 	O_TRUNC/* | O_NONBLOCK*/ | O_RDWR, RDWR);
 	(*args)->outfile = open((*args)->av[(*args)->ac - 1],

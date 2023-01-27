@@ -6,7 +6,7 @@
 #    By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/04 13:04:18 by aahlyel           #+#    #+#              #
-#    Updated: 2023/01/27 18:19:07 by aahlyel          ###   ########.fr        #
+#    Updated: 2023/01/27 19:21:52 by aahlyel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,16 +20,49 @@ HBLU = '\e[1;94m'
 NC   = '\e[0m'
 
 
+#-------------------------------------------#
+#			Mandatory Variables				#
+#-------------------------------------------#
+
 OBJS =	obj/pipex.o obj/utils.o obj/parsing.o obj/executer.o obj/ft_split_garbg.o\
 
-CC = cc
-RM = rm -rf
-mkdir = mkdir -p
-CFLAGS = -Wall -Wextra -Werror
 dir = obj bin
-NAME = bin/pipex
+
 libft = lib/libft
+
 LIBA = lib/libft/bin/libft.a
+
+NAME = bin/pipex
+
+#-----------------------------------------------#
+#				Bonus Variables					#
+#-----------------------------------------------#
+
+BONUS_OBJS = ${addprefix bonus/, ${OBJS}}
+
+bonus_dir = ${addprefix bonus/, ${dir}}
+
+bonus_libft = ${addprefix bonus/, ${libft}}
+
+BONUS_LIBA = ${addprefix bonus/, ${LIBA}}
+
+BONUS_NAME = ${addprefix bonus/, ${NAME}}
+
+#-----------------------------------------------#
+#				tools Variables					#
+#-----------------------------------------------#
+
+CC = cc
+
+RM = rm -rf
+
+mkdir = mkdir -p
+
+CFLAGS = -Wall -Wextra -Werror
+
+#---------------------------------------#
+#				Executable				#
+#---------------------------------------#
 
 all : ${NAME}
 
@@ -49,17 +82,45 @@ obj/%.o : src/utils/%.c include/pipex.h
 	@printf ${HBLU}"[%-30s] 🕝 \r"${NC} "Compiling ${notdir $@}"
 	@${CC} ${CFLAGS} -c -o $@ $<
 
+#---------------------------------------------------#
+#						Bonus						#
+#---------------------------------------------------#
+
+bonus : ${BONUS_NAME}
+
+${BONUS_NAME} : ${bonus_dir} ${BONUS_OBJS}
+	make -C ${bonus_libft}
+	${CC} ${CFLAGS} ${BONUS_OBJS} ${BONUS_LIBA} -o ${BONUS_NAME}
+	printf ${HGRN}"Executable $(BONUS_NAME) ready ✔️"${NC}
+
+${bonus_dir} :
+	${mkdir} ${bonus_dir}
+
+bonus/obj/%.o : bonus/src/%.c bonus/include/pipex.h
+	@printf ${HBLU}"[%-30s] 🕝 \r"${NC} "Compiling ${notdir $@}"
+	@${CC} ${CFLAGS} -c -o $@ $<
+
+bonus/obj/%.o : bonus/src/utils/%.c bonus/include/pipex.h
+	@printf ${HBLU}"[%-30s] 🕝 \r"${NC} "Compiling ${notdir $@}"
+	@${CC} ${CFLAGS} -c -o $@ $<
+
+#-----------------------------------------------#
+#					Cleaning					#
+#-----------------------------------------------#
+
 clean :
 	make clean -C ${libft}
-	${RM} obj
+	make clean -C ${bonus_libft}
+	${RM} obj bonus/obj
 	printf ${HRED}"Object files removed successfully 🗑️ \n"$(NC)
 
 fclean : clean
 	make fclean -C ${libft}
-	${RM} bin
+	make fclean -C ${bonus_libft}
+	${RM} bin bonus/bin
 	printf ${HRED}"Executables and Archives removed successfully 🗑️\n"$(NC)
 
 re : fclean all
 
 .PHONY : fclean clean compile re
-.SILENT : fclean clean re all ${NAME} ${dir}
+.SILENT : fclean clean re all ${NAME} ${dir} ${BONUS_NAME} ${bonus_dir}
