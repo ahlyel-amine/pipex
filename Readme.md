@@ -16,18 +16,18 @@ main process
 |       |       |__     execve(command path, command, envp) // this function kill process       |
 |       |                                                                                       |
 |       |___________ parent process                                                             |
-|       |           |                                                                           |
-|       |           |   dup2(fd[0], STDIN)                                                      |
-|       |           |   close(fd[1])                                                            |
-|       |           |   close(fd[0])                                                            |
-|       |           |___waitpid(pid)                                                            |
-|       |                                                                                       |
-|_______|_______________________________________________________________________________________|
-        |
-        |
-        |
-        |___________ parent process                    |
-                |                                      |
-                |  dup2(outfile, STDOUT)               |  < for last command
-                |__execve(command path, command, envp) |
+|      /           |                                                                            |
+|     /            |   dup2(fd[0], STDIN)                                                       |
+|    /             |   close(fd[1])                                                             |
+|   /              |   close(fd[0])                                                             |
+|  /               |___waitpid(pid)                                                             |
+| /                                                                                             |
+|/______________________________________________________________________________________________|
+|
+|
+|
+|___________ parent process == main proccess   |
+        |                                      |
+        |  dup2(outfile, STDOUT)               |  < for last command
+        |__execve(command path, command, envp) |
 ```
