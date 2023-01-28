@@ -6,13 +6,14 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:20 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/28 18:33:34 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/28 19:25:36 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
+# include "../lib/get_next_line/include/get_next_line.h"
 # include "../lib/libft/include/libft.h"
 # include <unistd.h>
 # include <sys/errno.h>
@@ -27,12 +28,12 @@ typedef struct s_args
 	char	**path;
 	char	***cmds;
 	char	**cmds_path;
-	char	**heredoc;
 	char	*limiter;
 	int		infile;
 	int		outfile;
 	int		fd[2];
 	t_list	*heredoc;
+	char	**here_doc;
 }	t_args;
 
 /// @brief

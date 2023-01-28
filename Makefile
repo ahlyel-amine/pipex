@@ -6,7 +6,7 @@
 #    By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/04 13:04:18 by aahlyel           #+#    #+#              #
-#    Updated: 2023/01/28 18:24:32 by aahlyel          ###   ########.fr        #
+#    Updated: 2023/01/28 18:51:45 by aahlyel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,10 @@ BONUS_LIBA = ${addprefix bonus/, ${LIBA}}
 
 BONUS_NAME = ${addprefix bonus/, ${NAME}}
 
+GNLA = bonus/lib/get_next_line/bin/get_next_line.a
+
+GNL = bonus/lib/get_next_line
+
 #-----------------------------------------------#
 #				tools Variables					#
 #-----------------------------------------------#
@@ -58,7 +62,8 @@ RM = rm -rf
 
 mkdir = mkdir -p
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror
+#  -fsanitize=address
 
 #---------------------------------------#
 #				Executable				#
@@ -90,7 +95,8 @@ bonus : ${BONUS_NAME}
 
 ${BONUS_NAME} : ${bonus_dir} ${BONUS_OBJS}
 	make -C ${bonus_libft}
-	${CC} ${CFLAGS} ${BONUS_OBJS} ${BONUS_LIBA} -o ${BONUS_NAME}
+	make -C ${GNL}
+	${CC} ${CFLAGS} ${BONUS_OBJS} ${GNLA} ${BONUS_LIBA} -o ${BONUS_NAME}
 	printf ${HGRN}"Executable $(BONUS_NAME) ready ✔️"${NC}
 
 ${bonus_dir} :
@@ -111,12 +117,14 @@ bonus/obj/%.o : bonus/src/utils/%.c bonus/include/pipex.h
 clean :
 	make clean -C ${libft}
 	make clean -C ${bonus_libft}
+	make clean -C ${GNL}
 	${RM} obj bonus/obj
 	printf ${HRED}"Object files removed successfully 🗑️ \n"$(NC)
 
 fclean : clean
 	make fclean -C ${libft}
 	make fclean -C ${bonus_libft}
+	make fclean -C ${GNL}
 	${RM} bin bonus/bin
 	printf ${HRED}"Executables and Archives removed successfully 🗑️\n"$(NC)
 

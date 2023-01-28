@@ -2,6 +2,8 @@
     "files.associations": {
         "*.excalidraw": "json",
         "*.excalidrawlib": "json",
-        "pipex.h": "c"
+        "pipex.h": "c",
+        "libft.h": "c",
+        "get_next_line.h": "c"
     }
 }

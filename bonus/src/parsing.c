@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/28 18:33:43 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/28 19:43:35 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,40 @@ void	ft_parse(t_list **garbg, t_args **args, char **envp)
 
 void	get_here_doc(t_args **args, t_list **garbg)
 {
+	char	*tmp;
+	int		len;
+
+	tmp = NULL;
 	if ((*args)->ac != 6)
 		ft_exit("Syntax Error, Expected : ./pipex here_doc LIMITER cmd cmd1 file", garbg);
 	(*args)->outfile = open((*args)->av[(*args)->ac - 1], O_CREAT | O_TRUNC | O_RDWR, RDWR);
 	if ((*args)->outfile < 0)
 		ft_exit("Error cannot open file", garbg);
 	get_commands(args, garbg, 3);
-	
+	(*args)->limiter = ft_malloc(ft_strdup((*args)->av[2]), garbg);
+	(*args)->limiter = ft_malloc(ft_strjoin((*args)->limiter, "\n"), garbg);
+	while (1)
+	{
+		write(1, "pipe heredoc> ", ft_strlen("pipe heredoc> "));
+		tmp = get_next_line(0, garbg);
+		if(!tmp || (tmp && !ft_memcmp((*args)->limiter, tmp, ft_strlen((*args)->limiter))))
+			break ;
+		ft_lstadd_back(&(*args)->heredoc, ft_malloc(ft_lstnew(tmp), garbg));
+	}
+	len = ft_lstsize((*args)->heredoc);
+	(*args)->here_doc = ft_malloc(malloc(sizeof(char *) * len + 1), garbg);
+	(*args)->here_doc[len] = NULL;
+	len = 0;
+	while ((*args)->heredoc)
+	{
+		(*args)->here_doc[len++] =  (*args)->heredoc->content;
+		(*args)->heredoc = (*args)->heredoc->next;
+	}
+	while (*(*args)->here_doc)
+	{
+		printf("%s", *(*args)->here_doc);
+		(*args)->here_doc++;
+	}
 }
 
 void	get_args(t_args **args, t_list **garbg)
