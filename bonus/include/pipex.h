@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:20 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/27 18:00:06 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/28 18:33:34 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 
 # define RDWR 0644
 
-/// @brief argumets saver structur
 typedef struct s_args
 {
 	int		ac;
@@ -29,11 +28,12 @@ typedef struct s_args
 	char	***cmds;
 	char	**cmds_path;
 	char	**heredoc;
+	char	*limiter;
 	int		infile;
 	int		outfile;
 	int		fd[2];
+	t_list	*heredoc;
 }	t_args;
-
 
 /// @brief
 /// @param s
@@ -69,7 +69,7 @@ void	get_args(t_args **args, t_list **garbg);
 /// @param argv program args
 /// @param argc number of program args
 /// @param garbg garbage collector linked list
-void	get_commands(t_args **args, t_list **garbg);
+void	get_commands(t_args **args, t_list **garbg, int cmdind);
 
 /// @brief this function check if commands valid
 /// @param args args saver structur
@@ -99,5 +99,7 @@ void	exec_command(t_args *args, t_list **garbg, char **envp, int i);
 /// @param ac
 /// @param envp
 void	ft_execute(t_list **garbg, t_args **args, char **envp);
+
+void	get_here_doc(t_args **args, t_list **garbg);
 
 #endif

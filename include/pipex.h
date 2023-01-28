@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:20 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/27 18:00:06 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/28 18:16:49 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 
 # define RDWR 0644
 
-/// @brief argumets saver structur
 typedef struct s_args
 {
 	int		ac;
@@ -28,7 +27,6 @@ typedef struct s_args
 	char	**path;
 	char	***cmds;
 	char	**cmds_path;
-	char	**heredoc;
 	int		infile;
 	int		outfile;
 	int		fd[2];
