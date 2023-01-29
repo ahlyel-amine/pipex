@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/28 19:43:35 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/29 22:49:49 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ void	ft_parse(t_list **garbg, t_args **args, char **envp)
 void	get_here_doc(t_args **args, t_list **garbg)
 {
 	char	*tmp;
-	int		len;
 
 	tmp = NULL;
 	if ((*args)->ac != 6)
 		ft_exit("Syntax Error, Expected : ./pipex here_doc LIMITER cmd cmd1 file", garbg);
 	(*args)->outfile = open((*args)->av[(*args)->ac - 1], O_CREAT | O_TRUNC | O_RDWR, RDWR);
-	if ((*args)->outfile < 0)
+	(*args)->infile = open(".heredoc", O_CREAT | O_RDWR, RDWR);
+	if ((*args)->outfile < 0 || (*args)->infile < 0)
 		ft_exit("Error cannot open file", garbg);
 	get_commands(args, garbg, 3);
 	(*args)->limiter = ft_malloc(ft_strdup((*args)->av[2]), garbg);
@@ -43,21 +43,8 @@ void	get_here_doc(t_args **args, t_list **garbg)
 		tmp = get_next_line(0, garbg);
 		if(!tmp || (tmp && !ft_memcmp((*args)->limiter, tmp, ft_strlen((*args)->limiter))))
 			break ;
-		ft_lstadd_back(&(*args)->heredoc, ft_malloc(ft_lstnew(tmp), garbg));
-	}
-	len = ft_lstsize((*args)->heredoc);
-	(*args)->here_doc = ft_malloc(malloc(sizeof(char *) * len + 1), garbg);
-	(*args)->here_doc[len] = NULL;
-	len = 0;
-	while ((*args)->heredoc)
-	{
-		(*args)->here_doc[len++] =  (*args)->heredoc->content;
-		(*args)->heredoc = (*args)->heredoc->next;
-	}
-	while (*(*args)->here_doc)
-	{
-		printf("%s", *(*args)->here_doc);
-		(*args)->here_doc++;
+		write((*args)->infile, tmp, ft_strlen(tmp));
+		// ft_lstadd_back(&(*args)->heredoc, ft_malloc(ft_lstnew(tmp), garbg));
 	}
 }
 
@@ -65,7 +52,7 @@ void	get_args(t_args **args, t_list **garbg)
 {
 	if ((*args)->ac < 5)
 		ft_exit("Syntax Error, Expected : ./pipex file1 cmd1 cmd2 ... cmdn file2", garbg);
-	(*args)->infile = open((*args)->av[1], O_TRUNC | O_RDWR, RDWR);
+	(*args)->infile = open((*args)->av[1], O_RDWR, RDWR);
 	(*args)->outfile = open((*args)->av[(*args)->ac - 1], O_CREAT | O_TRUNC | O_RDWR, RDWR);
 	if ((*args)->outfile < 0 || (*args)->infile < 0)
 		ft_exit("Error cannot open file", garbg);
@@ -75,10 +62,11 @@ void	get_args(t_args **args, t_list **garbg)
 void	get_commands(t_args **args, t_list **garbg, int cmdind)
 {
 	char	*tmp;
-	int		k;
+	int		cmd;
+	int		skip;
 
 	tmp = NULL;
-	k = 0;
+	cmd = 0;
 	(*args)->cmds = ft_malloc(malloc(sizeof(char **) * (*args)->ac - cmdind), garbg);
 	(*args)->cmds_path = \
 		ft_malloc(malloc(sizeof(char *) * (*args)->ac - cmdind), garbg);
@@ -86,14 +74,24 @@ void	get_commands(t_args **args, t_list **garbg, int cmdind)
 	(*args)->cmds_path[(*args)->ac - cmdind - 1] = NULL;
 	while (cmdind < (*args)->ac - 1)
 	{
-		(*args)->cmds[k] = ft_split_garbg((*args)->av[cmdind], ' ', garbg);
-		tmp = check_commands(args, garbg, k);
-		(*args)->cmds_path[k++] = ft_malloc(ft_strdup(tmp), garbg);
+		skip = 0;
+		(*args)->cmds[cmd] = ft_split_garbg((*args)->av[cmdind], ' ', garbg);
+		while ((*args)->cmds[cmd][0])
+		{
+			if ((*args)->cmds[cmd][0][skip] == '/')
+				skip++;
+			else if ((*args)->cmds[cmd][0][skip] == '.' && (*args)->cmds[cmd][0][skip + 1] == '/')
+				skip++;
+			else
+				break ;
+		}
+		tmp = check_commands(args, garbg, cmd, skip);
+		(*args)->cmds_path[cmd++] = ft_malloc(ft_strdup(tmp), garbg);
 		cmdind++;
 	}
 }
 
-char	*check_commands(t_args **args, t_list **garbg, int cmdind)
+char	*check_commands(t_args **args, t_list **garbg, int cmdind, int skip)
 {
 	char	*tmp;
 	int		acs;
@@ -104,7 +102,7 @@ char	*check_commands(t_args **args, t_list **garbg, int cmdind)
 	while ((*args)->path[j])
 	{
 		tmp = ft_malloc(ft_strjoin((*args)->path[j], "/"), garbg);
-		tmp = ft_malloc(ft_strjoin(tmp, (*args)->cmds[cmdind][0]), garbg);
+		tmp = ft_malloc(ft_strjoin(tmp, (*args)->cmds[cmdind][0] + skip), garbg);
 		acs = access(tmp, F_OK);
 		if (acs != -1)
 			break ;

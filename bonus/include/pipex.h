@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:20 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/28 19:25:36 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/29 22:50:20 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,9 @@ void	get_commands(t_args **args, t_list **garbg, int cmdind);
 /// @param args args saver structur
 /// @param garbg garbage collector linked list
 /// @param cmdind indice of a command
+/// @param skip
 /// @return command path
-char	*check_commands(t_args **args, t_list **garbg, int cmdind);
+char	*check_commands(t_args **args, t_list **garbg, int cmdind, int skip);
 
 /// @brief
 /// @param garbg
@@ -102,5 +103,6 @@ void	exec_command(t_args *args, t_list **garbg, char **envp, int i);
 void	ft_execute(t_list **garbg, t_args **args, char **envp);
 
 void	get_here_doc(t_args **args, t_list **garbg);
+void	ft_execute_heredoc(t_list **garbg, t_args **args, char **envp);
 
 #endif

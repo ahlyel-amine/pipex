@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/27 19:07:31 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/29 22:45:02 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	ft_parse(t_list **garbg, t_args **args, char **envp)
 {
+	if ((*args)->ac != 5)
+		ft_exit("Syntax Error, Expected : ./pipex file1 cmd1 cmd2 file2", garbg);
 	if (!envp)
 		ft_exit("Invalid envirenment", garbg);
 	(*args)->path = ft_split_garbg(env_path(envp, garbg), ':', garbg);
@@ -21,13 +23,8 @@ void	ft_parse(t_list **garbg, t_args **args, char **envp)
 }
 void	get_args(t_args **args, t_list **garbg)
 {
-	if ((*args)->ac != 5)
-		ft_exit("Syntax Error, Expected :\
- ./pipex file1 cmd1 cmd2 file2", garbg);
-	(*args)->infile = open((*args)->av[1], \
-	O_TRUNC/* | O_NONBLOCK*/ | O_RDWR, RDWR);
-	(*args)->outfile = open((*args)->av[(*args)->ac - 1],
-			O_CREAT | O_TRUNC/* | O_NONBLOCK*/ | O_RDWR, RDWR);
+	(*args)->infile = open((*args)->av[1], O_RDONLY, RDWR);
+	(*args)->outfile = open((*args)->av[(*args)->ac - 1], O_CREAT | O_TRUNC | O_RDWR, RDWR);
 	if ((*args)->outfile < 0 || (*args)->infile < 0)
 		ft_exit("Error cannot open file", garbg);
 	get_commands(args, garbg);
@@ -37,26 +34,36 @@ void	get_commands(t_args **args, t_list **garbg)
 {
 	char	*tmp;
 	int		i;
-	int		k;
+	int		skip;
+	int		cmndind;
 
-	tmp = NULL;
-	k = 0;
+	cmndind = 0;
 	i = 2;
+	tmp = NULL;
 	(*args)->cmds = ft_malloc(malloc(sizeof(char **) * (*args)->ac - i), garbg);
-	(*args)->cmds_path = \
-		ft_malloc(malloc(sizeof(char *) * (*args)->ac - i), garbg);
+	(*args)->cmds_path = ft_malloc(malloc(sizeof(char *) * (*args)->ac - i), garbg);
 	(*args)->cmds[(*args)->ac - i - 1] = NULL;
 	(*args)->cmds_path[(*args)->ac - i - 1] = NULL;
 	while (i < (*args)->ac - 1)
 	{
-		(*args)->cmds[k] = ft_split_garbg((*args)->av[i], ' ', garbg);
-		tmp = check_commands(args, garbg, k);
-		(*args)->cmds_path[k++] = ft_malloc(ft_strdup(tmp), garbg);
+		skip = 0;
+		(*args)->cmds[cmndind] = ft_split_garbg((*args)->av[i], ' ', garbg);
+		while ((*args)->cmds[cmndind][0])
+		{
+			if ((*args)->cmds[cmndind][0][skip] == '/')
+				skip++;
+			else if ((*args)->cmds[cmndind][0][skip] == '.' && (*args)->cmds[cmndind][0][skip + 1] == '/')
+				skip++;
+			else
+				break ;
+		}
+		tmp = check_commands(args, garbg, cmndind, skip);
+		(*args)->cmds_path[cmndind++] = ft_malloc(ft_strdup(tmp), garbg);
 		i++;
 	}
 }
 
-char	*check_commands(t_args **args, t_list **garbg, int cmdind)
+char	*check_commands(t_args **args, t_list **garbg, int cmdind, int skip)
 {
 	char	*tmp;
 	int		acs;
@@ -67,17 +74,15 @@ char	*check_commands(t_args **args, t_list **garbg, int cmdind)
 	while ((*args)->path[j])
 	{
 		tmp = ft_malloc(ft_strjoin((*args)->path[j], "/"), garbg);
-		tmp = ft_malloc(ft_strjoin(tmp, (*args)->cmds[cmdind][0]), garbg);
+		tmp = ft_malloc(ft_strjoin(tmp, (*args)->cmds[cmdind][0] + skip), garbg);
+		printf("%s\n", tmp);
 		acs = access(tmp, F_OK);
 		if (acs != -1)
 			break ;
 		j++;
 	}
 	if (acs == -1)
-	{
-		ft_exit(ft_malloc(ft_strjoin("Error : Cannot find command ", \
-		(*args)->cmds[cmdind][0]), garbg), garbg);
-	}
+		ft_exit(ft_malloc(ft_strjoin("Error : Cannot find command ", (*args)->cmds[cmdind][0]), garbg), garbg);
 	return (tmp);
 }
 

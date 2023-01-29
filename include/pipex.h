@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:20 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/28 18:16:49 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/29 22:50:15 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,9 @@ void	get_commands(t_args **args, t_list **garbg);
 /// @param args args saver structur
 /// @param garbg garbage collector linked list
 /// @param cmdind indice of a command
+/// @param skip 
 /// @return command path
-char	*check_commands(t_args **args, t_list **garbg, int cmdind);
+char	*check_commands(t_args **args, t_list **garbg, int cmdind, int skip);
 
 /// @brief
 /// @param garbg
