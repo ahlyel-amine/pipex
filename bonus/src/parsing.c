@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/29 22:49:49 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/29 22:55:17 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,10 +109,7 @@ char	*check_commands(t_args **args, t_list **garbg, int cmdind, int skip)
 		j++;
 	}
 	if (acs == -1)
-	{
-		ft_exit(ft_malloc(ft_strjoin("Error : Cannot find command ", \
-		(*args)->cmds[cmdind][0]), garbg), garbg);
-	}
+		ft_exit(ft_malloc(ft_strjoin("Error : Cannot find command ", (*args)->cmds[cmdind][0]), garbg), garbg);
 	return (tmp);
 }
 

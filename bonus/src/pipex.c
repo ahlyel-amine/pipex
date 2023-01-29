@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:01:03 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/29 17:25:20 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/29 22:56:26 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	main(int ac, char **av, char **envp)
 	args->ac = ac;
 	args->av = av;
 	ft_parse(&garbg, &args, envp);
-	if (args->heredoc)
-		ft_execute_heredoc(&garbg, &args, envp);
+	// if (args->heredoc)
+	// 	ft_execute_heredoc(&garbg, &args, envp);
 	ft_execute(&garbg, &args, envp);
 }
