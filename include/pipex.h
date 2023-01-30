@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:20 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/30 16:39:06 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/30 17:44:30 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # define ERRPTH "\e[1;91m91mErrror Envirenment PATH NOT FOUND\e[0m"
 # define ERRSNTX "\e[1;91mSyntax Error, Expected : ./pipex file1 cmd1 cmd2 file2\e[0m"
 # define ERRFD "\e[1;91mError cannot open file : "
-# define ERRCMD "\e[1;91mError:  Cannot find command\e[0m"
+# define ERRCMD "\e[1;91mcommand not found \e[0m"
 # define ERRPIPE "\e[1;91mError pipe faillure : "
 # define ERRALLOC "\e[1;91mError Allocation failure :"
 # define ERREXEC "\e[1;91mError Allocation failure :"
