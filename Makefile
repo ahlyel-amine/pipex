@@ -6,7 +6,7 @@
 #    By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/04 13:04:18 by aahlyel           #+#    #+#              #
-#    Updated: 2023/01/30 16:40:37 by aahlyel          ###   ########.fr        #
+#    Updated: 2023/01/30 17:34:35 by aahlyel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ NC   = '\e[0m'
 
 OBJS =	obj/pipex.o obj/utils.o obj/parsing.o obj/executer.o obj/ft_split_garbg.o\
 
-dir = obj bin
+dir = bin obj
 
 libft = lib/libft
 
@@ -62,22 +62,19 @@ RM = rm -rf
 
 mkdir = mkdir -p
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror
+#  -fsanitize=address
 
 #---------------------------------------#
 #				Executable				#
 #---------------------------------------#
 
-all : ${NAME}
+all : $(NAME)
 
-${NAME} : ${dir} ${OBJS}
+${NAME} : ${dir} $(OBJS)
 	make -C ${libft}
-	${CC} ${CFLAGS} ${OBJS} ${LIBA} -o ${NAME}
+	${CC} ${CFLAGS} ${LIBA} ${OBJS} -o ${NAME}
 	printf ${HGRN}"Executable $(NAME) ready ✔️"${NC}
-
-${dir} :
-	${mkdir} ${dir}
-	touch infile
 
 obj/%.o : src/%.c include/pipex.h
 	@printf ${HBLU}"[%-30s] 🕝 \r"${NC} "Compiling ${notdir $@}"
@@ -87,6 +84,10 @@ obj/%.o : src/utils/%.c include/pipex.h
 	@printf ${HBLU}"[%-30s] 🕝 \r"${NC} "Compiling ${notdir $@}"
 	@${CC} ${CFLAGS} -c -o $@ $<
 
+${dir} :
+	${mkdir} ${dir}
+	touch infile
+	
 #---------------------------------------------------#
 #						Bonus						#
 #---------------------------------------------------#
@@ -99,9 +100,6 @@ ${BONUS_NAME} : ${bonus_dir} ${BONUS_OBJS}
 	${CC} ${CFLAGS} ${BONUS_OBJS} ${GNLA} ${BONUS_LIBA} -o ${BONUS_NAME}
 	printf ${HGRN}"Executable $(BONUS_NAME) ready ✔️"${NC}
 
-${bonus_dir} :
-	${mkdir} ${bonus_dir}
-	touch infile
 
 bonus/obj/%.o : bonus/src/%.c bonus/include/pipex.h
 	@printf ${HBLU}"[%-30s] 🕝 \r"${NC} "Compiling ${notdir $@}"
@@ -111,6 +109,10 @@ bonus/obj/%.o : bonus/src/utils/%.c bonus/include/pipex.h
 	@printf ${HBLU}"[%-30s] 🕝 \r"${NC} "Compiling ${notdir $@}"
 	@${CC} ${CFLAGS} -c -o $@ $<
 
+${bonus_dir} :
+	${mkdir} ${bonus_dir}
+	touch infile
+
 #-----------------------------------------------#
 #					Cleaning					#
 #-----------------------------------------------#
@@ -119,17 +121,17 @@ clean :
 	make clean -C ${libft}
 	make clean -C ${bonus_libft}
 	make clean -C ${GNL}
-	${RM} obj bonus/obj infile
+	${RM} obj bonus/obj
 	printf ${HRED}"Object files removed successfully 🗑️ \n"$(NC)
 
 fclean : clean
 	make fclean -C ${libft}
 	make fclean -C ${bonus_libft}
 	make fclean -C ${GNL}
-	${RM} bin bonus/bin files
+	${RM} bin bonus/bin infile
 	printf ${HRED}"Executables and Archives removed successfully 🗑️\n"$(NC)
 
 re : fclean all
 
-.PHONY : fclean clean re ${NAME} ${dir} ${BONUS_NAME} ${bonus_dir}
-.SILENT : fclean clean re all ${NAME} ${dir} ${BONUS_NAME} ${bonus_dir}
+.PHONY : fclean clean re bonus
+.SILENT : fclean clean re all bonus ${NAME} ${dir} ${BONUS_NAME} ${bonus_dir} 
