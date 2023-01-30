@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:20 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/30 16:10:27 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/30 16:39:17 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@
 # define ERRCMD "\e[1;91mError : Cannot find command : \e[0m"
 # define ERRPIPE "\e[1;91mError pipe faillure\e[0m"
 # define ERRALLOC "\e[1;91mError Allocation failure\e[0m"
+# define ERREXEC "\e[1;91mError Allocation failure :"
+# define ERREAD "\e[1;91mError Read faillure :"
+# define ERRWR "\e[1;91mError Write faillure :"
 
 /*		define variable 		*/
 # define RDWR 0644

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 13:39:24 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/28 18:50:16 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/30 16:36:39 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ char	*ft_read(int fd, t_list **garbg)
 	{
 		count = read(fd, tmp, BUFFER_SIZE);
 		if (count < 0)
-			return (ft_exit("Error", garbg), NULL);
+			return (ft_exit(ERREAD, garbg, 0), NULL);
 		tmp[count] = 0;
 		if (count)
 			line = ft_strfreejoin(line, tmp, garbg);

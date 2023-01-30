@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:39:09 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/27 18:01:03 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/30 16:19:05 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	**ft_split_garbg(char const *s, char c, t_list **garbg)
 	if (!splited)
 		return (NULL);
 	if (alloc_fill_strs(splited, (char *)s, c, wc, garbg))
-		ft_exit("Allocation faillure", garbg);
+		ft_exit(ERRALLOC, garbg, 0);
 	return (splited);
 }
 

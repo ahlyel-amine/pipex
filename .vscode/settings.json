@@ -5,6 +5,7 @@
         "pipex.h": "c",
         "libft.h": "c",
         "get_next_line.h": "c",
-        "errno.h": "c"
+        "errno.h": "c",
+        "unistd.h": "c"
     }
 }

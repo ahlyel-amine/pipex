@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 21:10:36 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/30 16:14:32 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/30 16:35:20 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ void	ft_execute(t_list **garbg, t_args **args, char **envp)
 			if (!pid)
 			{
 				dup2((*args)->outfile, STDOUT_FILENO);
-				execve((*args)->cmds_path[i], (*args)->cmds[i], envp);
+				if(execve((*args)->cmds_path[i], (*args)->cmds[i], envp) == -1)
+					ft_exit(ERREXEC, garbg, 0);
 			}
 		}
 		i++;
@@ -51,7 +52,8 @@ void	exec_command(t_args *args, t_list **garbg, char **envp, int i)
 		dup2(args->fd[1], STDOUT_FILENO);
 		close(args->fd[1]);
 		close(args->fd[0]);
-		execve(args->cmds_path[i], args->cmds[i], envp);
+		if (execve(args->cmds_path[i], args->cmds[i], envp))
+			ft_exit(ERREXEC, garbg, 0);
 	}
 	else
 	{

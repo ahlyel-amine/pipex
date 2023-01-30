@@ -6,7 +6,7 @@
 #    By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/04 13:04:18 by aahlyel           #+#    #+#              #
-#    Updated: 2023/01/30 15:00:37 by aahlyel          ###   ########.fr        #
+#    Updated: 2023/01/30 16:40:37 by aahlyel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,7 @@ RM = rm -rf
 
 mkdir = mkdir -p
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address
 
 #---------------------------------------#
 #				Executable				#
@@ -77,6 +77,7 @@ ${NAME} : ${dir} ${OBJS}
 
 ${dir} :
 	${mkdir} ${dir}
+	touch infile
 
 obj/%.o : src/%.c include/pipex.h
 	@printf ${HBLU}"[%-30s] 🕝 \r"${NC} "Compiling ${notdir $@}"
@@ -100,6 +101,7 @@ ${BONUS_NAME} : ${bonus_dir} ${BONUS_OBJS}
 
 ${bonus_dir} :
 	${mkdir} ${bonus_dir}
+	touch infile
 
 bonus/obj/%.o : bonus/src/%.c bonus/include/pipex.h
 	@printf ${HBLU}"[%-30s] 🕝 \r"${NC} "Compiling ${notdir $@}"
@@ -117,14 +119,14 @@ clean :
 	make clean -C ${libft}
 	make clean -C ${bonus_libft}
 	make clean -C ${GNL}
-	${RM} obj bonus/obj
+	${RM} obj bonus/obj infile
 	printf ${HRED}"Object files removed successfully 🗑️ \n"$(NC)
 
 fclean : clean
 	make fclean -C ${libft}
 	make fclean -C ${bonus_libft}
 	make fclean -C ${GNL}
-	${RM} bin bonus/bin
+	${RM} bin bonus/bin files
 	printf ${HRED}"Executables and Archives removed successfully 🗑️\n"$(NC)
 
 re : fclean all

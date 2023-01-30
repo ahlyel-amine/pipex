@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/30 16:14:20 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/30 16:19:23 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	ft_parse(t_list **garbg, t_args **args, char **envp)
 	(*args)->path = ft_split_garbg(env_path(envp, garbg), ':', garbg);
 	get_args(args, garbg);
 }
+
 void	get_args(t_args **args, t_list **garbg)
 {
 	(*args)->infile = open((*args)->av[1], O_RDONLY, RDWR);

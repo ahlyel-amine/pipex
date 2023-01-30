@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/30 16:11:18 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/30 16:37:57 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ void	get_here_doc(t_args **args, t_list **garbg)
 		tmp = get_next_line(0, garbg);
 		if(!tmp || (tmp && !ft_memcmp((*args)->limiter, tmp, ft_strlen((*args)->limiter))))
 			break ;
-		write((*args)->infile, tmp, ft_strlen(tmp));
+		if (write((*args)->infile, tmp, ft_strlen(tmp)) == -1)
+			ft_exit(ERRWR, garbg, 0);
 	}
 	close((*args)->infile);
 	(*args)->infile = open(HRDCFILE, O_RDWR, RDWR);
