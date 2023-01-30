@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/29 22:55:17 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/30 14:36:33 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	get_here_doc(t_args **args, t_list **garbg)
 	if ((*args)->ac != 6)
 		ft_exit("Syntax Error, Expected : ./pipex here_doc LIMITER cmd cmd1 file", garbg);
 	(*args)->outfile = open((*args)->av[(*args)->ac - 1], O_CREAT | O_TRUNC | O_RDWR, RDWR);
-	(*args)->infile = open(".heredoc", O_CREAT | O_RDWR, RDWR);
+	(*args)->infile = open(".heredoc", O_CREAT | O_TRUNC | O_RDWR, RDWR);
 	if ((*args)->outfile < 0 || (*args)->infile < 0)
 		ft_exit("Error cannot open file", garbg);
 	get_commands(args, garbg, 3);
@@ -44,12 +44,14 @@ void	get_here_doc(t_args **args, t_list **garbg)
 		if(!tmp || (tmp && !ft_memcmp((*args)->limiter, tmp, ft_strlen((*args)->limiter))))
 			break ;
 		write((*args)->infile, tmp, ft_strlen(tmp));
-		// ft_lstadd_back(&(*args)->heredoc, ft_malloc(ft_lstnew(tmp), garbg));
 	}
+	close((*args)->infile);
+	(*args)->infile = open(".heredoc", O_RDWR, RDWR);
 }
 
 void	get_args(t_args **args, t_list **garbg)
 {
+	printf("%d\n", (*args)->ac);
 	if ((*args)->ac < 5)
 		ft_exit("Syntax Error, Expected : ./pipex file1 cmd1 cmd2 ... cmdn file2", garbg);
 	(*args)->infile = open((*args)->av[1], O_RDWR, RDWR);
