@@ -4,6 +4,7 @@
         "*.excalidrawlib": "json",
         "pipex.h": "c",
         "libft.h": "c",
-        "get_next_line.h": "c"
+        "get_next_line.h": "c",
+        "errno.h": "c"
     }
 }

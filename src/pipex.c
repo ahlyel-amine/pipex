@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:01:03 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/29 21:34:14 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/30 16:13:43 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,5 @@ int	main(int ac, char **av, char **envp)
 	args->av = av;
 	ft_parse(&garbg, &args, envp);
 	ft_execute(&garbg, &args, envp);
+	ft_exit(NULL, &garbg, 1);
 }

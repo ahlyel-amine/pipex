@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/30 14:36:33 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/30 16:11:18 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void	ft_parse(t_list **garbg, t_args **args, char **envp)
 {
 	if (!envp)
-		ft_exit("Invalid envirenment", garbg);
+		ft_exit(ERRENV, garbg, 0);
 	(*args)->path = ft_split_garbg(env_path(envp, garbg), ':', garbg);
-	if ((*args)->av[1] && !ft_memcmp((*args)->av[1], "here_doc", ft_strlen("here_doc")))
+	if ((*args)->av[1] && !ft_memcmp((*args)->av[1], HEREDOC, 8))
 		get_here_doc(args, garbg);
 	else
 		get_args(args, garbg);
@@ -29,35 +29,34 @@ void	get_here_doc(t_args **args, t_list **garbg)
 
 	tmp = NULL;
 	if ((*args)->ac != 6)
-		ft_exit("Syntax Error, Expected : ./pipex here_doc LIMITER cmd cmd1 file", garbg);
+		ft_exit(ERR_HEREDOC_SNTX, garbg, 0);
 	(*args)->outfile = open((*args)->av[(*args)->ac - 1], O_CREAT | O_TRUNC | O_RDWR, RDWR);
-	(*args)->infile = open(".heredoc", O_CREAT | O_TRUNC | O_RDWR, RDWR);
+	(*args)->infile = open(HRDCFILE, O_CREAT | O_TRUNC | O_RDWR, RDWR);
 	if ((*args)->outfile < 0 || (*args)->infile < 0)
-		ft_exit("Error cannot open file", garbg);
+		ft_exit(ERRFD, garbg, 0);
 	get_commands(args, garbg, 3);
-	(*args)->limiter = ft_malloc(ft_strdup((*args)->av[2]), garbg);
-	(*args)->limiter = ft_malloc(ft_strjoin((*args)->limiter, "\n"), garbg);
+	(*args)->limiter = ft_malloc(ft_strjoin((*args)->av[2], "\n"), garbg);
 	while (1)
 	{
-		write(1, "pipe heredoc> ", ft_strlen("pipe heredoc> "));
+		write(1, HRDCCMD, 14);
 		tmp = get_next_line(0, garbg);
 		if(!tmp || (tmp && !ft_memcmp((*args)->limiter, tmp, ft_strlen((*args)->limiter))))
 			break ;
 		write((*args)->infile, tmp, ft_strlen(tmp));
 	}
 	close((*args)->infile);
-	(*args)->infile = open(".heredoc", O_RDWR, RDWR);
+	(*args)->infile = open(HRDCFILE, O_RDWR, RDWR);
 }
 
 void	get_args(t_args **args, t_list **garbg)
 {
 	printf("%d\n", (*args)->ac);
 	if ((*args)->ac < 5)
-		ft_exit("Syntax Error, Expected : ./pipex file1 cmd1 cmd2 ... cmdn file2", garbg);
+		ft_exit(ERRSNTX, garbg, 0);
 	(*args)->infile = open((*args)->av[1], O_RDWR, RDWR);
 	(*args)->outfile = open((*args)->av[(*args)->ac - 1], O_CREAT | O_TRUNC | O_RDWR, RDWR);
 	if ((*args)->outfile < 0 || (*args)->infile < 0)
-		ft_exit("Error cannot open file", garbg);
+		ft_exit(ERRFD, garbg, 0);
 	get_commands(args, garbg, 2);
 }
 
@@ -111,7 +110,7 @@ char	*check_commands(t_args **args, t_list **garbg, int cmdind, int skip)
 		j++;
 	}
 	if (acs == -1)
-		ft_exit(ft_malloc(ft_strjoin("Error : Cannot find command ", (*args)->cmds[cmdind][0]), garbg), garbg);
+		ft_exit(ft_malloc(ft_strjoin(ERRCMD, (*args)->cmds[cmdind][0]), garbg), garbg, 0);
 	return (tmp);
 }
 
@@ -127,5 +126,5 @@ char	*env_path(char **envp, t_list **garbg)
 						ft_strlen(envp[i] + 5)), garbg));
 		i++;
 	}
-	return (ft_exit("Envirenment PATH NOT FOUND", garbg), NULL);
+	return (ft_exit(ERRPTH, garbg, 0), NULL);
 }

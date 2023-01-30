@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:20 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/29 22:50:15 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/30 16:13:56 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,15 @@
 # include <unistd.h>
 # include <sys/errno.h>
 # include <fcntl.h>
+
+/*		error messages		*/
+# define ERRENV "\e[1;91mInvalid envirenment\e[0m"
+# define ERRPTH "\e[1;91mEnvirenment PATH NOT FOUND\e[0m"
+# define ERRSNTX "\e[1;91mSyntax Error, Expected : ./pipex file1 cmd1 cmd2 file2\e[0m"
+# define ERRFD "\e[1;91mError cannot open file\e[0m"
+# define ERRCMD "\e[1;91mError : Cannot find command : \e[0m"
+# define ERRPIPE "\e[1;91mError pipe faillure\e[0m"
+# define ERRALLOC "\e[1;91mError Allocation failure\e[0m"
 
 # define RDWR 0644
 
@@ -43,7 +52,7 @@ char	**ft_split_garbg(char const *s, char c, t_list **garbg);
 /// @brief exit function in error cases
 /// @param error_msg error message to write in stderr
 /// @param garbg garbage collector linked list
-void	ft_exit(char *error_msg, t_list **garbg);
+void	ft_exit(char *error_msg, t_list **garbg, int status);
 
 /// @brief purpose of this function is to save all addresses being allocated
 /// @param pointer pointer being allocated

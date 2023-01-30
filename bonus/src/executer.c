@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 21:10:36 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/30 14:52:40 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/30 16:10:40 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_execute(t_list **garbg, t_args **args, char **envp)
 		if (i < (*args)->ac  - 4)
 		{
 			if (pipe((*args)->fd) < 0)
-				ft_exit("Error pipe faillure", garbg);
+				ft_exit(ERRPIPE, garbg, 0);
 			exec_command(*args, garbg, envp, i);
 		}
 		else

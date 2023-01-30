@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/29 22:45:02 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/30 16:14:20 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void	ft_parse(t_list **garbg, t_args **args, char **envp)
 {
 	if ((*args)->ac != 5)
-		ft_exit("Syntax Error, Expected : ./pipex file1 cmd1 cmd2 file2", garbg);
+		ft_exit(ERRSNTX, garbg, 0);
 	if (!envp)
-		ft_exit("Invalid envirenment", garbg);
+		ft_exit(ERRENV, garbg, 0);
 	(*args)->path = ft_split_garbg(env_path(envp, garbg), ':', garbg);
 	get_args(args, garbg);
 }
@@ -26,7 +26,7 @@ void	get_args(t_args **args, t_list **garbg)
 	(*args)->infile = open((*args)->av[1], O_RDONLY, RDWR);
 	(*args)->outfile = open((*args)->av[(*args)->ac - 1], O_CREAT | O_TRUNC | O_RDWR, RDWR);
 	if ((*args)->outfile < 0 || (*args)->infile < 0)
-		ft_exit("Error cannot open file", garbg);
+		ft_exit(ERRFD, garbg, 0);
 	get_commands(args, garbg);
 }
 
@@ -75,14 +75,13 @@ char	*check_commands(t_args **args, t_list **garbg, int cmdind, int skip)
 	{
 		tmp = ft_malloc(ft_strjoin((*args)->path[j], "/"), garbg);
 		tmp = ft_malloc(ft_strjoin(tmp, (*args)->cmds[cmdind][0] + skip), garbg);
-		printf("%s\n", tmp);
 		acs = access(tmp, F_OK);
 		if (acs != -1)
 			break ;
 		j++;
 	}
 	if (acs == -1)
-		ft_exit(ft_malloc(ft_strjoin("Error : Cannot find command ", (*args)->cmds[cmdind][0]), garbg), garbg);
+		ft_exit(ft_malloc(ft_strjoin(ERRCMD, (*args)->cmds[cmdind][0]), garbg), garbg, 0);
 	return (tmp);
 }
 
@@ -98,5 +97,5 @@ char	*env_path(char **envp, t_list **garbg)
 						ft_strlen(envp[i] + 5)), garbg));
 		i++;
 	}
-	return (ft_exit("Envirenment PATH NOT FOUND", garbg), NULL);
+	return (ft_exit(ERRPTH, garbg, 0), NULL);
 }

@@ -6,15 +6,23 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 17:53:43 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/27 18:01:08 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/30 16:12:11 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/pipex.h"
 
-void	ft_exit(char *error_msg, t_list **garbg)
+void	ft_exit(char *error_msg, t_list **garbg, int status)
 {
-	ft_putendl_fd(error_msg, STDERR_FILENO);
+	if (status)
+	{
+		ft_lstclear(garbg, free);
+		exit(EXIT_SUCCESS);
+	}
+	if (errno)
+		perror(error_msg);
+	else
+		ft_putendl_fd(error_msg, STDERR_FILENO);
 	ft_lstclear(garbg, free);
 	exit(EXIT_FAILURE);
 }
@@ -25,12 +33,12 @@ void	*ft_malloc(void *pointer, t_list **garbg)
 
 	new = NULL;
 	if (!pointer)
-		ft_exit("Allocation failure", garbg);
+		ft_exit(ERRALLOC, garbg, 0);
 	new = ft_lstnew(pointer);
 	if (!new)
 	{
 		free(pointer);
-		ft_exit("Allocation failure", garbg);
+		ft_exit(ERRALLOC, garbg, 0);
 	}
 	ft_lstadd_back(garbg, new);
 	return (pointer);

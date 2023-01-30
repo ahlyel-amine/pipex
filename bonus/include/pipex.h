@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:20 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/29 22:50:20 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/30 16:10:27 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,21 @@
 # include <sys/errno.h>
 # include <fcntl.h>
 
+/*		define error messages		*/
+# define ERRENV "\e[1;91mInvalid envirenment\e[0m"
+# define ERRPTH "\e[1;91mEnvirenment PATH NOT FOUND\e[0m"
+# define ERRSNTX "\e[1;91mSyntax Error\e[0m Expected : ./pipex file1 cmd1 cmd2 ... cmdn file2"
+# define ERR_HEREDOC_SNTX "\e[1;91mSyntax Error\e[0m Expected : ./pipex here_doc LIMITER cmd cmd1 file"
+# define ERRFD "\e[1;91mError cannot open file\e[0m"
+# define ERRCMD "\e[1;91mError : Cannot find command : \e[0m"
+# define ERRPIPE "\e[1;91mError pipe faillure\e[0m"
+# define ERRALLOC "\e[1;91mError Allocation failure\e[0m"
+
+/*		define variable 		*/
 # define RDWR 0644
+# define HRDCCMD "pipe heredoc> "
+# define HEREDOC "here_doc"
+# define HRDCFILE ".heredoc"
 
 typedef struct s_args
 {
@@ -32,8 +46,8 @@ typedef struct s_args
 	int		infile;
 	int		outfile;
 	int		fd[2];
-	t_list	*heredoc;
-	char	**here_doc;
+	// t_list	*heredoc;
+	// char	**here_doc;
 }	t_args;
 
 /// @brief
@@ -46,7 +60,7 @@ char	**ft_split_garbg(char const *s, char c, t_list **garbg);
 /// @brief exit function in error cases
 /// @param error_msg error message to write in stderr
 /// @param garbg garbage collector linked list
-void	ft_exit(char *error_msg, t_list **garbg);
+void	ft_exit(char *error_msg, t_list **garbg, int status);
 
 /// @brief purpose of this function is to save all addresses being allocated
 /// @param pointer pointer being allocated

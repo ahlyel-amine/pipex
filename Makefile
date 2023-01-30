@@ -6,7 +6,7 @@
 #    By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/04 13:04:18 by aahlyel           #+#    #+#              #
-#    Updated: 2023/01/28 18:51:45 by aahlyel          ###   ########.fr        #
+#    Updated: 2023/01/30 15:00:37 by aahlyel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,7 +63,6 @@ RM = rm -rf
 mkdir = mkdir -p
 
 CFLAGS = -Wall -Wextra -Werror
-#  -fsanitize=address
 
 #---------------------------------------#
 #				Executable				#

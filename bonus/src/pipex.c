@@ -6,12 +6,13 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:01:03 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/30 14:54:04 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/30 16:11:27 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex.h"
 #include <unistd.h>
+
 int	main(int ac, char **av, char **envp)
 {
 	t_args	*args;
@@ -26,6 +27,6 @@ int	main(int ac, char **av, char **envp)
 		args->ac--;
 	ft_execute(&garbg, &args, envp);
 	if (args->limiter)
-		unlink(".heredoc");
-	ft_exit(NULL, garbg);
+		unlink(HRDCFILE);
+	ft_exit(NULL, &garbg, 1);
 }
