@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 21:10:36 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/30 14:49:16 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/30 14:52:40 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	ft_execute(t_list **garbg, t_args **args, char **envp)
 {
 	int	i;
+	int	pid;
 
 	i = 0;
 	dup2((*args)->infile, STDIN_FILENO);
@@ -28,8 +29,12 @@ void	ft_execute(t_list **garbg, t_args **args, char **envp)
 		}
 		else
 		{
-			dup2((*args)->outfile, STDOUT_FILENO);
-			execve((*args)->cmds_path[i], (*args)->cmds[i], envp);
+			pid = fork();
+			if (!pid)
+			{
+				dup2((*args)->outfile, STDOUT_FILENO);
+				execve((*args)->cmds_path[i], (*args)->cmds[i], envp);
+			}
 		}
 		i++;
 	}

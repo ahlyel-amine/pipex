@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:01:03 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/30 14:48:31 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/01/30 14:54:04 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,5 @@ int	main(int ac, char **av, char **envp)
 	ft_execute(&garbg, &args, envp);
 	if (args->limiter)
 		unlink(".heredoc");
+	ft_exit(NULL, garbg);
 }
