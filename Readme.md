@@ -28,8 +28,6 @@
         |____/obj        (where the generated .o files will be)
         |
         |____/lib        (any library dependences)
-        |
-        |____Makefile    (make instructions file)
 
 ```
 <h1>Usage</h1>
