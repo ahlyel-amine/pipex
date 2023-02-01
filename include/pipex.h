@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:20 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/30 17:44:30 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/01 12:22:12 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,20 @@
 # include <unistd.h>
 # include <sys/errno.h>
 # include <fcntl.h>
+# include <string.h>
 
-/*		error messages		*/
-# define ERRENV "\e[1;91mErrror Invalid envirenment\e[0m"
-# define ERRPTH "\e[1;91m91mErrror Envirenment PATH NOT FOUND\e[0m"
-# define ERRSNTX "\e[1;91mSyntax Error, Expected : ./pipex file1 cmd1 cmd2 file2\e[0m"
-# define ERRFD "\e[1;91mError cannot open file : "
-# define ERRCMD "\e[1;91mcommand not found \e[0m"
-# define ERRPIPE "\e[1;91mError pipe faillure : "
-# define ERRALLOC "\e[1;91mError Allocation failure :"
-# define ERREXEC "\e[1;91mError Allocation failure :"
-
-
+/*		define error variables		*/
+# define ERRENV "\e[1;91mpipex: Errror Invalid envirenment\n"
+# define ERRSNTX "\e[1;91mpipex: Syntax Error, Expected\
+ : ./pipex file1 cmd1 cmd2 file2\n"
+# define ERRFD "\e[1;91mpipex: no such file or directory: "
+# define ERRCMD "\e[1;91mpipex: command not found: "
+# define EXIT_ERRCMD 127
+# define ERRALLOC "\e[1;91mpipex: Cannot allocate memory\n"
+/*--------------------------------*/
 
 # define RDWR 0644
+# define INFL ".infile"
 
 typedef struct s_args
 {
@@ -40,10 +40,10 @@ typedef struct s_args
 	char	***cmds;
 	char	**cmds_path;
 	int		infile;
+	int		is_infile;
 	int		outfile;
 	int		fd[2];
 }	t_args;
-
 
 /// @brief
 /// @param s
@@ -95,7 +95,6 @@ char	*check_commands(t_args **args, t_list **garbg, int cmdind, int skip);
 /// @param envp
 void	ft_parse(t_list **garbg, t_args **args, char **envp);
 
-
 /// @brief
 /// @param args
 /// @param garbg
@@ -103,12 +102,13 @@ void	ft_parse(t_list **garbg, t_args **args, char **envp);
 /// @param i
 void	exec_command(t_args *args, t_list **garbg, char **envp, int i);
 
-
 /// @brief
 /// @param garbg
 /// @param args
 /// @param ac
 /// @param envp
 void	ft_execute(t_list **garbg, t_args **args, char **envp);
+
+void	ft_set_err(char *error_msg, int status);
 
 #endif

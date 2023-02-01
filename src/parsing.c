@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/30 16:19:23 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/01 11:21:54 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void	ft_parse(t_list **garbg, t_args **args, char **envp)
 {
 	if ((*args)->ac != 5)
-		ft_exit(ERRSNTX, garbg, 0);
+		ft_exit(ERRSNTX, garbg, 1);
 	if (!envp)
-		ft_exit(ERRENV, garbg, 0);
+		ft_exit(ERRENV, garbg, 1);
 	(*args)->path = ft_split_garbg(env_path(envp, garbg), ':', garbg);
 	get_args(args, garbg);
 }
@@ -27,7 +27,10 @@ void	get_args(t_args **args, t_list **garbg)
 	(*args)->infile = open((*args)->av[1], O_RDONLY, RDWR);
 	(*args)->outfile = open((*args)->av[(*args)->ac - 1], O_CREAT | O_TRUNC | O_RDWR, RDWR);
 	if ((*args)->outfile < 0 || (*args)->infile < 0)
-		ft_exit(ERRFD, garbg, 0);
+	{
+		errno = 0;
+		ft_exit(ft_malloc(ft_strjoin(ERRFD, (*args)->av[1]), garbg), garbg, ENOENT);
+	}
 	get_commands(args, garbg);
 }
 
@@ -71,8 +74,9 @@ char	*check_commands(t_args **args, t_list **garbg, int cmdind, int skip)
 	int		j;
 
 	j = 0;
+	acs = -1;
 	tmp = NULL;
-	while ((*args)->path[j])
+	while ((*args)->path && (*args)->path[j])
 	{
 		tmp = ft_malloc(ft_strjoin((*args)->path[j], "/"), garbg);
 		tmp = ft_malloc(ft_strjoin(tmp, (*args)->cmds[cmdind][0] + skip), garbg);
@@ -82,7 +86,7 @@ char	*check_commands(t_args **args, t_list **garbg, int cmdind, int skip)
 		j++;
 	}
 	if (acs == -1)
-		ft_exit(ft_malloc(ft_strjoin(ERRCMD, (*args)->cmds[cmdind][0]), garbg), garbg, 0);
+		ft_set_err(ft_malloc(ft_strjoin(ERRCMD, (*args)->cmds[cmdind][0]), garbg), EXIT_ERRCMD);
 	return (tmp);
 }
 
@@ -98,5 +102,5 @@ char	*env_path(char **envp, t_list **garbg)
 						ft_strlen(envp[i] + 5)), garbg));
 		i++;
 	}
-	return (ft_exit(ERRPTH, garbg, 0), NULL);
+	return (NULL);
 }
