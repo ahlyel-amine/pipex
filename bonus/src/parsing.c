@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/03 18:33:15 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/03 20:33:20 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	get_here_doc(t_args **args, t_list **garbg)
 	tmp = NULL;
 	if ((*args)->ac != 6)
 		ft_exit(ERR_HEREDOC_SNTX, garbg, 0);
-	(*args)->outfile = open((*args)->av[(*args)->ac - 1], O_CREAT | O_TRUNC | O_RDWR, RDWR);
+	(*args)->outfile = open((*args)->av[(*args)->ac - 1], O_CREAT | O_APPEND | O_RDWR, RDWR);
 	(*args)->infile = open(HRDCFILE, O_CREAT | O_TRUNC | O_RDWR, RDWR);
 	if ((*args)->outfile < 0 || (*args)->infile < 0)
 		ft_exit(ERRFD, garbg, 0);

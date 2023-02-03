@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 15:01:44 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/03 18:29:25 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/03 20:06:48 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void	exec_command(t_args *args, t_list **garbg, char **envp, int i)
 		pid = fork();
 		if (pid == 0)
 		{
-			dup2(args->fd[1], STDOUT_FILENO);
+			if (dup2(args->fd[1], STDOUT_FILENO) == -1)
+				ft_exit(ERRDUP2, garbg, 1);
 			close(args->fd[1]);
 			close(args->fd[0]);
 			if (execve(args->cmds_path[i], args->cmds[i], envp))
@@ -59,12 +60,14 @@ void	exec_command(t_args *args, t_list **garbg, char **envp, int i)
 		}
 		else
 		{
-			dup2(args->fd[0], STDIN_FILENO);
+			if (dup2(args->fd[0], STDIN_FILENO) == -1)
+				ft_exit(ERRDUP2, garbg, 1);
 			close(args->fd[1]);
 			close(args->fd[0]);
 			waitpid(pid, NULL, F_OK);
 		}
 	}
 	else
-		dup2(args->outfile, STDIN_FILENO);
+		if (dup2(args->fd[0], STDIN_FILENO) == -1)
+			dup2(args->outfile, STDIN_FILENO);
 }
