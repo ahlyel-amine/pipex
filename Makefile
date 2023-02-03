@@ -6,7 +6,7 @@
 #    By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/04 13:04:18 by aahlyel           #+#    #+#              #
-#    Updated: 2023/01/30 17:37:24 by aahlyel          ###   ########.fr        #
+#    Updated: 2023/02/03 18:37:34 by aahlyel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,8 +32,7 @@ libft = lib/libft
 
 LIBA = lib/libft/bin/libft.a
 
-# NAME = bin/pipex
-NAME = pipex
+NAME = bin/pipex
 
 #-----------------------------------------------#
 #				Bonus Variables					#
@@ -47,8 +46,7 @@ bonus_libft = ${addprefix bonus/, ${libft}}
 
 BONUS_LIBA = ${addprefix bonus/, ${LIBA}}
 
-# BONUS_NAME = ${addprefix bonus/, ${NAME}}
-BONUS_NAME = bonus/pipex
+BONUS_NAME = ${addprefix bonus/, ${NAME}}
 
 GNLA = bonus/lib/get_next_line/bin/get_next_line.a
 

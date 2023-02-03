@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:01:03 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/01 12:20:11 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/03 18:16:02 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,5 @@ int	main(int ac, char **av, char **envp)
 	args->av = av;
 	ft_parse(&garbg, &args, envp);
 	ft_execute(&garbg, &args, envp);
-	puts("fianl");
 	ft_exit(NULL, &garbg, 0);
 }

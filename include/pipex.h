@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:20 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/01 12:22:12 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/03 18:29:18 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@
 # define ERRSNTX "\e[1;91mpipex: Syntax Error, Expected\
  : ./pipex file1 cmd1 cmd2 file2\n"
 # define ERRFD "\e[1;91mpipex: no such file or directory: "
+# define ERRPIPE "\e[1;91mpipex: pipe faillure"
+# define ERREXEC "\e[1;91mpipex: execve faillure"
+# define ERRDUP2 "\e[1;91mpipex: dup2 faillure"
 # define ERRCMD "\e[1;91mpipex: command not found: "
 # define EXIT_ERRCMD 127
 # define ERRALLOC "\e[1;91mpipex: Cannot allocate memory\n"
@@ -55,7 +58,7 @@ char	**ft_split_garbg(char const *s, char c, t_list **garbg);
 /// @brief exit function in error cases
 /// @param error_msg error message to write in stderr
 /// @param garbg garbage collector linked list
-void	ft_exit(char *error_msg, t_list **garbg, int status);
+void	ft_exit(char *error_msg, t_list **garbg, int exit_status);
 
 /// @brief purpose of this function is to save all addresses being allocated
 /// @param pointer pointer being allocated
@@ -109,6 +112,8 @@ void	exec_command(t_args *args, t_list **garbg, char **envp, int i);
 /// @param envp
 void	ft_execute(t_list **garbg, t_args **args, char **envp);
 
-void	ft_set_err(char *error_msg, int status);
+/// @brief 
+/// @param error_msg 
+void	ft_set_err(char *error_msg);
 
 #endif

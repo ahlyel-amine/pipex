@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/01 11:21:54 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/03 18:26:22 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,11 @@ void	ft_parse(t_list **garbg, t_args **args, char **envp)
 void	get_args(t_args **args, t_list **garbg)
 {
 	(*args)->infile = open((*args)->av[1], O_RDONLY, RDWR);
+	if ((*args)->infile < 0)
+		ft_set_err(ft_malloc(ft_strjoin(ERRFD, (*args)->av[1]), garbg));
 	(*args)->outfile = open((*args)->av[(*args)->ac - 1], O_CREAT | O_TRUNC | O_RDWR, RDWR);
-	if ((*args)->outfile < 0 || (*args)->infile < 0)
-	{
-		errno = 0;
-		ft_exit(ft_malloc(ft_strjoin(ERRFD, (*args)->av[1]), garbg), garbg, ENOENT);
-	}
+	if ((*args)->outfile < 0)
+		ft_exit(ft_malloc(ft_strjoin(ERRFD, (*args)->av[1]), garbg), garbg, 1);
 	get_commands(args, garbg);
 }
 
@@ -86,7 +85,7 @@ char	*check_commands(t_args **args, t_list **garbg, int cmdind, int skip)
 		j++;
 	}
 	if (acs == -1)
-		ft_set_err(ft_malloc(ft_strjoin(ERRCMD, (*args)->cmds[cmdind][0]), garbg), EXIT_ERRCMD);
+		ft_set_err(ft_malloc(ft_strjoin(ERRCMD, (*args)->cmds[cmdind][0]), garbg));
 	return (tmp);
 }
 

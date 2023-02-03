@@ -6,11 +6,19 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 17:53:43 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/30 16:09:47 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/03 18:30:46 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/pipex.h"
+
+void	ft_set_err(char *error_msg)
+{
+	if (error_msg)
+		ft_putendl_fd(error_msg, STDERR_FILENO);
+	else if (errno)
+		perror("");
+}
 
 void	ft_exit(char *error_msg, t_list **garbg, int status)
 {
@@ -33,12 +41,12 @@ void	*ft_malloc(void *pointer, t_list **garbg)
 
 	new = NULL;
 	if (!pointer)
-		ft_exit(ERRALLOC, garbg, 0);
+		ft_exit(ERRALLOC, garbg, 1);
 	new = ft_lstnew(pointer);
 	if (!new)
 	{
 		free(pointer);
-		ft_exit(ERRALLOC, garbg, 0);
+		ft_exit(ERRALLOC, garbg, 1);
 	}
 	ft_lstadd_back(garbg, new);
 	return (pointer);

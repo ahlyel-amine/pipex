@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/30 16:37:57 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/03 18:33:15 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,10 @@ void	get_args(t_args **args, t_list **garbg)
 	if ((*args)->ac < 5)
 		ft_exit(ERRSNTX, garbg, 0);
 	(*args)->infile = open((*args)->av[1], O_RDWR, RDWR);
+	if ((*args)->infile < 0)
+		ft_set_err(ERRFD);
 	(*args)->outfile = open((*args)->av[(*args)->ac - 1], O_CREAT | O_TRUNC | O_RDWR, RDWR);
-	if ((*args)->outfile < 0 || (*args)->infile < 0)
+	if ((*args)->outfile < 0)
 		ft_exit(ERRFD, garbg, 0);
 	get_commands(args, garbg, 2);
 }
@@ -111,7 +113,7 @@ char	*check_commands(t_args **args, t_list **garbg, int cmdind, int skip)
 		j++;
 	}
 	if (acs == -1)
-		ft_exit(ft_malloc(ft_strjoin(ERRCMD, (*args)->cmds[cmdind][0]), garbg), garbg, 0);
+		ft_set_err(ft_malloc(ft_strjoin(ERRCMD, (*args)->cmds[cmdind][0]), garbg));
 	return (tmp);
 }
 

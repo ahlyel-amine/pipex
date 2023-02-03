@@ -2,7 +2,9 @@
     "files.associations": {
         "*.excalidraw": "json",
         "*.excalidrawlib": "json",
-        "fcntl.h": "c"
+        "fcntl.h": "c",
+        "pipex.h": "c",
+        "errno.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:20 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/30 17:13:03 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/03 18:31:59 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@
 # define ERRPTH "\e[1;91mEnvirenment PATH NOT FOUND\e[0m"
 # define ERRSNTX "\e[1;91mSyntax Error\e[0m Expected : ./pipex file1 cmd1 cmd2 ... cmdn file2"
 # define ERR_HEREDOC_SNTX "\e[1;91mSyntax Error\e[0m Expected : ./pipex here_doc LIMITER cmd cmd1 file"
-# define ERRFD "\e[1;91mError cannot open file\e[0m"
+# define ERRFD "\e[1;91mpipex: no such file or directory: "
 # define ERRCMD "\e[1;91mError : Cannot find command : \e[0m"
-# define ERRPIPE "\e[1;91mError pipe faillure\e[0m"
 # define ERRALLOC "\e[1;91mError Allocation failure\e[0m"
-# define ERREXEC "\e[1;91mError Allocation failure :"
 # define ERREAD "\e[1;91mError Read faillure :"
 # define ERRWR "\e[1;91mError Write faillure :"
-
+# define ERRPIPE "\e[1;91mpipex: pipe faillure"
+# define ERREXEC "\e[1;91mpipex: execve faillure"
+# define ERRDUP2 "\e[1;91mpipex: dup2 faillure"
 /*		define variable 		*/
 # define RDWR 0644
 # define HRDCCMD "pipe heredoc> "
@@ -121,5 +121,6 @@ void	ft_execute(t_list **garbg, t_args **args, char **envp);
 
 void	get_here_doc(t_args **args, t_list **garbg);
 void	ft_execute_heredoc(t_list **garbg, t_args **args, char **envp);
+void	ft_set_err(char *error_msg);
 
 #endif

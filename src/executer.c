@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/12 21:10:36 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/03 18:36:10 by aahlyel          ###   ########.fr       */
+/*   Created: 2023/02/02 15:01:44 by aahlyel           #+#    #+#             */
+/*   Updated: 2023/02/03 18:29:25 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@ void	ft_execute(t_list **garbg, t_args **args, char **envp)
 	int	pid;
 
 	i = 0;
-	if ((*args)->infile >= 0)
-		dup2((*args)->infile, STDIN_FILENO);
-	while (i < (*args)->ac - 3)
+	if ((*args)->infile >= 0 && dup2((*args)->infile, STDIN_FILENO) == -1)
+		ft_exit(ERRDUP2, garbg, 1);
+	while (i < 2)
 	{
-		if (i < (*args)->ac  - 4)
+		if (!i)
 		{
 			if (pipe((*args)->fd) < 0)
 				ft_exit(ERRPIPE, garbg, 0);
-			exec_command(*args, garbg, envp, i);
+				exec_command(*args, garbg, envp, i);
 		}
 		else
 		{
@@ -34,8 +34,8 @@ void	ft_execute(t_list **garbg, t_args **args, char **envp)
 			if (!pid)
 			{
 				dup2((*args)->outfile, STDOUT_FILENO);
-				if (execve((*args)->cmds_path[i], (*args)->cmds[i], envp) == -1)
-					ft_exit(ERREXEC, garbg, 0);
+				if(execve((*args)->cmds_path[i], (*args)->cmds[i], envp) == -1)
+					ft_exit(ERREXEC, garbg, 1);
 			}
 		}
 		i++;
@@ -46,7 +46,7 @@ void	exec_command(t_args *args, t_list **garbg, char **envp, int i)
 {
 	int	pid;
 
-	if (i || args->infile >= 0)
+	if (args->infile >= 0)
 	{
 		pid = fork();
 		if (pid == 0)
@@ -54,8 +54,8 @@ void	exec_command(t_args *args, t_list **garbg, char **envp, int i)
 			dup2(args->fd[1], STDOUT_FILENO);
 			close(args->fd[1]);
 			close(args->fd[0]);
-			if (execve(args->cmds_path[i], args->cmds[i], envp) == -1)
-				ft_exit(ERREXEC, garbg, 0);
+			if (execve(args->cmds_path[i], args->cmds[i], envp))
+				ft_exit(ERREXEC, garbg, 1);
 		}
 		else
 		{
