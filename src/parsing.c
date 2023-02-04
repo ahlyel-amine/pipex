@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/03 18:26:22 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/04 18:10:47 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,15 +77,20 @@ char	*check_commands(t_args **args, t_list **garbg, int cmdind, int skip)
 	tmp = NULL;
 	while ((*args)->path && (*args)->path[j])
 	{
+		acs = access((*args)->cmds[cmdind][0], F_OK);
+		if (acs != -1)
+			return ((*args)->cmds[cmdind][0]);
+		if (skip)
+			break ;
 		tmp = ft_malloc(ft_strjoin((*args)->path[j], "/"), garbg);
-		tmp = ft_malloc(ft_strjoin(tmp, (*args)->cmds[cmdind][0] + skip), garbg);
+		tmp = ft_malloc(ft_strjoin(tmp, (*args)->cmds[cmdind][0]), garbg);
 		acs = access(tmp, F_OK);
 		if (acs != -1)
-			break ;
+			return (tmp);
 		j++;
 	}
 	if (acs == -1)
-		ft_set_err(ft_malloc(ft_strjoin(ERRCMD, (*args)->cmds[cmdind][0]), garbg));
+		ft_exit(ft_malloc(ft_strjoin(ERRCMD, (*args)->cmds[cmdind][0]), garbg), garbg, 1);
 	return (tmp);
 }
 
