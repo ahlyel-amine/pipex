@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/04 21:36:19 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/04 23:41:07 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,22 @@ void	get_args(t_args **args, t_list **garbg)
 	(*args)->infile = open((*args)->av[1], O_RDONLY, RDWR);
 	if ((*args)->infile < 0)
 		ft_set_err(ft_malloc(ft_strjoin(ERRFD, (*args)->av[1]), garbg));
-	(*args)->outfile = function_faillure(garbg, open((*args)->av[(*args)->ac - 1], O_CREAT | O_TRUNC | O_RDWR, RDWR), ERROPEN);
+	(*args)->outfile = function_faillure(garbg, \
+	open((*args)->av[(*args)->ac - 1], \
+	O_CREAT | O_TRUNC | O_RDWR, RDWR), ERROPEN);
 	get_commands(args, garbg);
-	if (!(*args)->cmds_path)
-		ft_exit(NULL, garbg, 0);
+	// if (!(*args)->cmds_path)
+	// 	ft_exit(NULL, garbg, 0);
+}
+
+void	init_commands(t_args **args, t_list **garbg)
+{
+	(*args)->cmds = ft_malloc(\
+	malloc(sizeof(char **) * ((*args)->ac - 2)), garbg);
+	(*args)->cmds_path = ft_malloc(\
+	malloc(sizeof(char *) * ((*args)->ac - 2)), garbg);
+	(*args)->cmds[(*args)->ac - 3] = NULL;
+	(*args)->cmds_path[(*args)->ac - 3] = NULL;
 }
 
 void	get_commands(t_args **args, t_list **garbg)
@@ -42,13 +54,9 @@ void	get_commands(t_args **args, t_list **garbg)
 	int		cmndind;
 
 	cmndind = 0;
-	count = 0;
 	i = 2;
 	tmp = NULL;
-	(*args)->cmds = ft_malloc(malloc(sizeof(char **) * (*args)->ac - i), garbg);
-	(*args)->cmds_path = ft_malloc(malloc(sizeof(char *) * (*args)->ac - i), garbg);
-	(*args)->cmds[(*args)->ac - i - 1] = NULL;
-	(*args)->cmds_path[(*args)->ac - i - 1] = NULL;
+	init_commands(args, garbg);
 	while (i < (*args)->ac - 1)
 	{
 		skip = 0;
@@ -64,6 +72,16 @@ void	get_commands(t_args **args, t_list **garbg)
 			(*args)->cmds_path = NULL;
 		i++;
 	}
+}
+
+int	print_err(t_list **garbg, t_args **args, int cmdind, int skip)
+{
+	if (skip)
+		return (ft_set_err(ft_malloc(\
+		ft_strjoin(ERRFD, (*args)->cmds[cmdind][0]), garbg)), 0);
+	else
+		return (ft_set_err(ft_malloc(\
+		ft_strjoin(ERRCMD, (*args)->cmds[cmdind][0]), garbg)), 0);
 }
 
 char	*check_commands(t_args **args, t_list **garbg, int cmdind, int skip)
@@ -89,16 +107,8 @@ char	*check_commands(t_args **args, t_list **garbg, int cmdind, int skip)
 			return (tmp);
 		j++;
 	}
-	if (acs == -1 && skip)
-	{
-		ft_set_err(ft_malloc(ft_strjoin(ERRFD, (*args)->cmds[cmdind][0]), garbg));
+	if (acs == -1 && !print_err(garbg, args, cmdind, skip))
 		tmp = NULL;
-	}
-	else if (acs == -1 && !skip)
-	{
-		ft_set_err(ft_malloc(ft_strjoin(ERRCMD, (*args)->cmds[cmdind][0]), garbg));
-		tmp = NULL;
-	}
 	return (tmp);
 }
 

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:20 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/04 21:35:38 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/04 23:31:14 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,5 +122,6 @@ void	ft_set_err(char *error_msg);
 
 int	function_faillure(t_list **garbg, int return_value, char *exit_message);
 
+int	print_err(t_list **garbg, t_args **args, int cmdind, int skip);
 
 #endif
