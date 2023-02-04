@@ -42,6 +42,10 @@ for mandatory part you can execute commands like
 ~~~
 $> bin/pipex "infile" "command1" "command2" "outfile"
 ~~~
+behave exactly like 
+~~~
+$> < infile command1 | command2 > outfile
+~~~
 and you can find the output in the outfile exist in the root directory of the project
 
 <h3>bonus part</h3>
@@ -54,8 +58,25 @@ for bonus part you can execute commands like
 ~~~
 $> bonus/bin/pipex "infile" "command 1" "command 2" ... "command n" "outfile"
 ~~~
+behave exactly like 
+~~~
+$> < infile command1 | command2 | ... | "command n" > outfile
+~~~
 and you can find the output in the outfile exist in the bonus directory
 
+and you can execute commands like :
+~~~
+$> bonus/bin/pipex "here_doc" LIMITER command1 command2 outfile
+~~~
+you got a open file 
+~~~
+$> pipe heredoc>
+~~~
+^^ enter a text and th limiter
+this one behave like 
+~~~
+$> command1 << LIMITER | command2 >> outfile
+~~~
 <h3>Cleaning</h3>
 
 to delete object file

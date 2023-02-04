@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:20 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/04 20:46:53 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/04 20:55:33 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@
 
 /*		define variable 		*/
 # define RDWR 0644
-# define INFL ".infile"
 /*--------------------------------*/
 
 typedef struct s_args

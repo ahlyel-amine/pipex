@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/04 20:38:35 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/04 20:55:46 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@ void	get_here_doc(t_args **args, t_list **garbg)
 	(*args)->infile = open(HRDCFILE, O_RDWR, RDWR);
 	get_commands(args, garbg, 3);
 	if (!(*args)->cmds_path)
+	{
+		unlink(HRDCFILE);
 		ft_exit(NULL, garbg, 0);
+	}
 }
 
 void	get_args(t_args **args, t_list **garbg)
