@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 15:01:44 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/03 20:06:48 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/04 19:34:09 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,17 @@ void	ft_execute(t_list **garbg, t_args **args, char **envp)
 		if (!i)
 		{
 			if (pipe((*args)->fd) < 0)
-				ft_exit(ERRPIPE, garbg, 0);
-				exec_command(*args, garbg, envp, i);
+				ft_exit(ERRPIPE, garbg, 1);
+			exec_command(*args, garbg, envp, i);
 		}
 		else
 		{
 			pid = fork();
 			if (!pid)
 			{
-				dup2((*args)->outfile, STDOUT_FILENO);
-				if(execve((*args)->cmds_path[i], (*args)->cmds[i], envp) == -1)
+				if (dup2((*args)->outfile, STDOUT_FILENO) == -1)
+					ft_exit(ERRPIPE, garbg, 1);
+				if (execve((*args)->cmds_path[i], (*args)->cmds[i], envp) == -1)
 					ft_exit(ERREXEC, garbg, 1);
 			}
 		}
@@ -55,7 +56,7 @@ void	exec_command(t_args *args, t_list **garbg, char **envp, int i)
 				ft_exit(ERRDUP2, garbg, 1);
 			close(args->fd[1]);
 			close(args->fd[0]);
-			if (execve(args->cmds_path[i], args->cmds[i], envp))
+			if (execve(args->cmds_path[i], args->cmds[i], envp) == -1)
 				ft_exit(ERREXEC, garbg, 1);
 		}
 		else
@@ -64,10 +65,10 @@ void	exec_command(t_args *args, t_list **garbg, char **envp, int i)
 				ft_exit(ERRDUP2, garbg, 1);
 			close(args->fd[1]);
 			close(args->fd[0]);
-			waitpid(pid, NULL, F_OK);
+			if (waitpid(pid, NULL, F_OK) == -1)
+				ft_exit(ERRWAIT, garbg, 1);
 		}
 	}
-	else
-		if (dup2(args->fd[0], STDIN_FILENO) == -1)
-			dup2(args->outfile, STDIN_FILENO);
+	else if (dup2(args->outfile, STDIN_FILENO) == -1)
+			ft_exit(ERRDUP2, garbg, 1);
 }

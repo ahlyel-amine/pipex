@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 21:10:36 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/03 18:36:10 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/04 19:34:15 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@ void	ft_execute(t_list **garbg, t_args **args, char **envp)
 	int	pid;
 
 	i = 0;
-	if ((*args)->infile >= 0)
-		dup2((*args)->infile, STDIN_FILENO);
+	if ((*args)->infile >= 0 && dup2((*args)->infile, STDIN_FILENO) == -1)
+		ft_exit(ERRDUP2, garbg, 1);
 	while (i < (*args)->ac - 3)
 	{
 		if (i < (*args)->ac  - 4)
 		{
 			if (pipe((*args)->fd) < 0)
-				ft_exit(ERRPIPE, garbg, 0);
+				ft_exit(ERRPIPE, garbg, 1);
 			exec_command(*args, garbg, envp, i);
 		}
 		else
@@ -33,9 +33,10 @@ void	ft_execute(t_list **garbg, t_args **args, char **envp)
 			pid = fork();
 			if (!pid)
 			{
-				dup2((*args)->outfile, STDOUT_FILENO);
+				if (dup2((*args)->outfile, STDOUT_FILENO) == -1)
+					ft_exit(ERRDUP2, garbg, 1);
 				if (execve((*args)->cmds_path[i], (*args)->cmds[i], envp) == -1)
-					ft_exit(ERREXEC, garbg, 0);
+					ft_exit(ERREXEC, garbg, 1);
 			}
 		}
 		i++;
@@ -51,20 +52,22 @@ void	exec_command(t_args *args, t_list **garbg, char **envp, int i)
 		pid = fork();
 		if (pid == 0)
 		{
-			dup2(args->fd[1], STDOUT_FILENO);
+			if (dup2(args->fd[1], STDOUT_FILENO) == -1)
+				ft_exit(ERRDUP2, garbg, 1);
 			close(args->fd[1]);
 			close(args->fd[0]);
 			if (execve(args->cmds_path[i], args->cmds[i], envp) == -1)
-				ft_exit(ERREXEC, garbg, 0);
+				ft_exit(ERREXEC, garbg, 1);
 		}
 		else
 		{
-			dup2(args->fd[0], STDIN_FILENO);
+			if (dup2(args->fd[0], STDIN_FILENO) == -1)
+				ft_exit(ERRDUP2, garbg, 1);
 			close(args->fd[1]);
 			close(args->fd[0]);
 			waitpid(pid, NULL, F_OK);
 		}
 	}
-	else
-		dup2(args->outfile, STDIN_FILENO);
+	else if (dup2(args->outfile, STDIN_FILENO) == -1)
+			ft_exit(ERRDUP2, garbg, 1);
 }

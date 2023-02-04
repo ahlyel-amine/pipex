@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:20 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/04 18:08:50 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/04 19:40:43 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,23 @@
 # include <fcntl.h>
 # include <string.h>
 
-/*		define error variables		*/
-# define ERRENV "\e[1;91mpipex: Errror Invalid envirenment\n"
-# define ERRSNTX "\e[1;91mpipex: Syntax Error, Expected\
- : ./pipex file1 cmd1 cmd2 file2\n"
+/*						define error variables						*/
+# define ERRENV "\e[1;91mpipex: Errror Invalid envirenment\e[0m"
+# define ERRSNTX "\e[1;91mpipex: Syntax Error,\e[0m Expected : \
+./pipex file1 cmd1 cmd2 file2"
 # define ERRFD "\e[1;91mpipex: no such file or directory: "
-# define ERRPIPE "\e[1;91mpipex: pipe faillure"
-# define ERREXEC "\e[1;91mpipex: execve faillure"
-# define ERRDUP2 "\e[1;91mpipex: dup2 faillure"
 # define ERRCMD "\e[1;91mpipex: command not found: "
-# define EXIT_ERRCMD 127
-# define ERRALLOC "\e[1;91mpipex: Cannot allocate memory\n"
-/*--------------------------------*/
+# define ERRALLOC "\e[1;91mpipex: Cannot allocate memory\e[0m"
+# define ERRPIPE "\e[1;91mpipex: Error pipe faillure\e[0m"
+# define ERREXEC "\e[1;91mpipex: Error execve faillure\e[0m"
+# define ERRWAIT "\e[1;91mpipex: Error waitpid faillure\e[0m"
+# define ERRDUP2 "\e[1;91mpipex: Error dup2 faillure\e[0m"
+/*----------------------------------------------------------------*/
 
+/*		define variable 		*/
 # define RDWR 0644
 # define INFL ".infile"
+/*--------------------------------*/
 
 typedef struct s_args
 {

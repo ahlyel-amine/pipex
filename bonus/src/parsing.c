@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/04 18:19:50 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/04 19:47:30 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	get_here_doc(t_args **args, t_list **garbg)
 			ft_exit(ERRWR, garbg, 0);
 	}
 	close((*args)->infile);
+	puts("parse done");
 	(*args)->infile = open(HRDCFILE, O_RDWR, RDWR);
 }
 
@@ -67,7 +68,6 @@ void	get_commands(t_args **args, t_list **garbg, int cmdind)
 	char	*tmp;
 	int		cmd;
 	int		skip;
-
 	tmp = NULL;
 	cmd = 0;
 	(*args)->cmds = ft_malloc(malloc(sizeof(char **) * (*args)->ac - cmdind), garbg);
@@ -133,5 +133,5 @@ char	*env_path(char **envp, t_list **garbg)
 						ft_strlen(envp[i] + 5)), garbg));
 		i++;
 	}
-	return (ft_exit(ERRPTH, garbg, 0), NULL);
+	return (NULL);
 }

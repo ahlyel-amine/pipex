@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:20 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/03 18:31:59 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/04 19:42:23 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,27 @@
 # include <fcntl.h>
 
 /*		define error messages		*/
-# define ERRENV "\e[1;91mInvalid envirenment\e[0m"
-# define ERRPTH "\e[1;91mEnvirenment PATH NOT FOUND\e[0m"
-# define ERRSNTX "\e[1;91mSyntax Error\e[0m Expected : ./pipex file1 cmd1 cmd2 ... cmdn file2"
-# define ERR_HEREDOC_SNTX "\e[1;91mSyntax Error\e[0m Expected : ./pipex here_doc LIMITER cmd cmd1 file"
+# define ERRENV "\e[1;91mpipex: Invalid envirenment\e[0m"
+# define ERRSNTX "\e[1;91mpipex: Syntax Error\e[0m Expected \
+: ./pipex file1 cmd1 cmd2 ... cmdn file2"
+# define ERR_HEREDOC_SNTX "\e[1;91mpipex: Syntax Error\e[0m \
+Expected : ./pipex here_doc LIMITER cmd cmd1 file"
 # define ERRFD "\e[1;91mpipex: no such file or directory: "
-# define ERRCMD "\e[1;91mError : Cannot find command : \e[0m"
-# define ERRALLOC "\e[1;91mError Allocation failure\e[0m"
-# define ERREAD "\e[1;91mError Read faillure :"
-# define ERRWR "\e[1;91mError Write faillure :"
-# define ERRPIPE "\e[1;91mpipex: pipe faillure"
-# define ERREXEC "\e[1;91mpipex: execve faillure"
-# define ERRDUP2 "\e[1;91mpipex: dup2 faillure"
+# define ERRCMD "\e[1;91mpipex: Error : Cannot find command : \e[0m"
+# define ERRALLOC "\e[1;91mpipex: Cannot allocate memory\e[0m"
+# define ERRPIPE "\e[1;91mpipex: Error pipe faillure"
+# define ERREXEC "\e[1;91mpipex: Error execve faillure"
+# define ERRWAIT "\e[1;91mpipex: Error waitpid faillure"
+# define ERRDUP2 "\e[1;91mpipex: Error dup2 faillure"
+# define ERREAD "\e[1;91mpipex: Error Read faillure"
+# define ERRWR "\e[1;91mpipex: Error Write faillure"
+/*--------------------------------*/
 /*		define variable 		*/
 # define RDWR 0644
 # define HRDCCMD "pipe heredoc> "
 # define HEREDOC "here_doc"
 # define HRDCFILE ".heredoc"
+/*--------------------------------*/
 
 typedef struct s_args
 {
@@ -49,8 +53,6 @@ typedef struct s_args
 	int		infile;
 	int		outfile;
 	int		fd[2];
-	// t_list	*heredoc;
-	// char	**here_doc;
 }	t_args;
 
 /// @brief

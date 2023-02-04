@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 17:53:43 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/03 18:30:46 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/04 19:26:35 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,20 @@ void	ft_set_err(char *error_msg)
 		perror("");
 }
 
-void	ft_exit(char *error_msg, t_list **garbg, int status)
+void	ft_exit(char *error_msg, t_list **garbg, int exit_status)
 {
-	if (status)
+	if (!exit_status)
 	{
 		ft_lstclear(garbg, free);
 		exit(EXIT_SUCCESS);
 	}
-	if (errno)
-		perror(error_msg);
-	else
+	if (error_msg)
 		ft_putendl_fd(error_msg, STDERR_FILENO);
+	else if (errno)
+ 		perror(""); 
 	ft_lstclear(garbg, free);
 	exit(EXIT_FAILURE);
 }
-
 void	*ft_malloc(void *pointer, t_list **garbg)
 {
 	t_list	*new;
