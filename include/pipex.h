@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:20 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/04 20:55:33 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/04 21:35:38 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@
 # define ERRPIPE "\e[1;91mpipex: Error pipe faillure\e[0m"
 # define ERREXEC "\e[1;91mpipex: Error execve faillure\e[0m"
 # define ERRWAIT "\e[1;91mpipex: Error waitpid faillure\e[0m"
+# define ERROPEN "\e[1;91mpipex: Error open faillure\e[0m"
+# define ERRCLOSE "\e[1;91mpipex: Error close faillure\e[0m"
 # define ERRDUP2 "\e[1;91mpipex: Error dup2 faillure\e[0m"
+# define ERRFRK "\e[1;91mpipex: Error fork faillure\e[0m"
 /*----------------------------------------------------------------*/
 
 /*		define variable 		*/
@@ -104,7 +107,7 @@ void	ft_parse(t_list **garbg, t_args **args, char **envp);
 /// @param garbg
 /// @param envp
 /// @param i
-void	exec_command(t_args *args, t_list **garbg, char **envp, int i);
+void	exec_command(t_args *args, t_list **garbg, char **envp);
 
 /// @brief
 /// @param garbg
@@ -116,5 +119,8 @@ void	ft_execute(t_list **garbg, t_args **args, char **envp);
 /// @brief 
 /// @param error_msg 
 void	ft_set_err(char *error_msg);
+
+int	function_faillure(t_list **garbg, int return_value, char *exit_message);
+
 
 #endif

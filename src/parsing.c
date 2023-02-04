@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/04 20:53:49 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/04 21:36:19 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,7 @@ void	get_args(t_args **args, t_list **garbg)
 	(*args)->infile = open((*args)->av[1], O_RDONLY, RDWR);
 	if ((*args)->infile < 0)
 		ft_set_err(ft_malloc(ft_strjoin(ERRFD, (*args)->av[1]), garbg));
-	(*args)->outfile = open((*args)->av[(*args)->ac - 1], O_CREAT | O_TRUNC | O_RDWR, RDWR);
-	if ((*args)->outfile < 0)
-		ft_exit(ft_malloc(ft_strjoin(ERRFD, (*args)->av[1]), garbg), garbg, 1);
+	(*args)->outfile = function_faillure(garbg, open((*args)->av[(*args)->ac - 1], O_CREAT | O_TRUNC | O_RDWR, RDWR), ERROPEN);
 	get_commands(args, garbg);
 	if (!(*args)->cmds_path)
 		ft_exit(NULL, garbg, 0);

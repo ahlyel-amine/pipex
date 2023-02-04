@@ -6,11 +6,17 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 17:53:43 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/04 18:11:31 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/04 21:35:32 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/pipex.h"
+
+int	function_faillure(t_list **garbg, int return_value, char *exit_message)
+{
+	if (return_value == -1)
+		ft_exit(exit_message, garbg, 1);
+}
 
 void	ft_set_err(char *error_msg)
 {
