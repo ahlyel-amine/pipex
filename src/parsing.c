@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/04 18:10:47 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/04 20:53:49 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,20 @@ void	get_args(t_args **args, t_list **garbg)
 	if ((*args)->outfile < 0)
 		ft_exit(ft_malloc(ft_strjoin(ERRFD, (*args)->av[1]), garbg), garbg, 1);
 	get_commands(args, garbg);
+	if (!(*args)->cmds_path)
+		ft_exit(NULL, garbg, 0);
 }
 
 void	get_commands(t_args **args, t_list **garbg)
 {
 	char	*tmp;
 	int		i;
+	int		count;
 	int		skip;
 	int		cmndind;
 
 	cmndind = 0;
+	count = 0;
 	i = 2;
 	tmp = NULL;
 	(*args)->cmds = ft_malloc(malloc(sizeof(char **) * (*args)->ac - i), garbg);
@@ -50,18 +54,16 @@ void	get_commands(t_args **args, t_list **garbg)
 	while (i < (*args)->ac - 1)
 	{
 		skip = 0;
+		count = 0;
 		(*args)->cmds[cmndind] = ft_split_garbg((*args)->av[i], ' ', garbg);
-		while ((*args)->cmds[cmndind][0])
-		{
-			if ((*args)->cmds[cmndind][0][skip] == '/')
+		while ((*args)->cmds[cmndind][0][count])
+			if ((*args)->cmds[cmndind][0][count++] == '/')
 				skip++;
-			else if ((*args)->cmds[cmndind][0][skip] == '.' && (*args)->cmds[cmndind][0][skip + 1] == '/')
-				skip++;
-			else
-				break ;
-		}
 		tmp = check_commands(args, garbg, cmndind, skip);
-		(*args)->cmds_path[cmndind++] = ft_malloc(ft_strdup(tmp), garbg);
+		if ((*args)->cmds_path && tmp)
+			(*args)->cmds_path[cmndind++] = ft_malloc(ft_strdup(tmp), garbg);
+		else
+			(*args)->cmds_path = NULL;
 		i++;
 	}
 }
@@ -89,8 +91,16 @@ char	*check_commands(t_args **args, t_list **garbg, int cmdind, int skip)
 			return (tmp);
 		j++;
 	}
-	if (acs == -1)
-		ft_exit(ft_malloc(ft_strjoin(ERRCMD, (*args)->cmds[cmdind][0]), garbg), garbg, 1);
+	if (acs == -1 && skip)
+	{
+		ft_set_err(ft_malloc(ft_strjoin(ERRFD, (*args)->cmds[cmdind][0]), garbg));
+		tmp = NULL;
+	}
+	else if (acs == -1 && !skip)
+	{
+		ft_set_err(ft_malloc(ft_strjoin(ERRCMD, (*args)->cmds[cmdind][0]), garbg));
+		tmp = NULL;
+	}
 	return (tmp);
 }
 

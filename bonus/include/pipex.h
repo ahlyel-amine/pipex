@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:20 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/04 19:42:23 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/04 20:40:36 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # define ERR_HEREDOC_SNTX "\e[1;91mpipex: Syntax Error\e[0m \
 Expected : ./pipex here_doc LIMITER cmd cmd1 file"
 # define ERRFD "\e[1;91mpipex: no such file or directory: "
-# define ERRCMD "\e[1;91mpipex: Error : Cannot find command : \e[0m"
+# define ERRCMD "\e[1;91mpipex: no such file or directory: \e[0m"
 # define ERRALLOC "\e[1;91mpipex: Cannot allocate memory\e[0m"
 # define ERRPIPE "\e[1;91mpipex: Error pipe faillure"
 # define ERREXEC "\e[1;91mpipex: Error execve faillure"
