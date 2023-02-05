@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 21:10:36 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/05 05:39:43 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/05 06:14:16 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	ft_execute(t_list **garbg, t_args **args, char **envp)
 	int	pid;
 
 	i = 0;
-	if ((*args)->infile >= 0 && dup2((*args)->infile, STDIN_FILENO) == -1)
-		ft_exit(ERRDUP2, garbg, 1);
+	if ((*args)->infile >= 0)
+		faillure(garbg, dup2((*args)->infile, STDIN_FILENO), ERRDUP2);
 	while (i < (*args)->ac - 3)
 	{
 		if (i < (*args)->ac  - 4)
@@ -27,7 +27,7 @@ void	ft_execute(t_list **garbg, t_args **args, char **envp)
 			faillure(garbg, pipe((*args)->fd), ERRPIPE);
 			exec_command(*args, garbg, envp, i);
 		}
-		else
+		else if ((*args)->cmds_path[i])
 		{
 			pid = fork();
 			if (!pid)

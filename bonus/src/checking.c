@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 04:59:41 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/05 05:35:31 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/05 05:58:26 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int print_err(t_list **garbg, t_args **args, int cmdind, int skip)
 	else if (!skip)
 		return (ft_set_err(ft_malloc(\
 		ft_strjoin(ERRCMD, (*args)->cmds[cmdind][0]), garbg)), 0);
-    return (1);
+    return (0);
 }
 
 char	*check_commands(t_args **args, t_list **garbg, int cmdind, int skip)

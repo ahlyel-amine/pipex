@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/05 05:28:50 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/05 06:10:28 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,8 @@ void	get_args(t_args **args, t_list **garbg)
 	(*args)->infile = open((*args)->av[1], O_RDWR, RDWR);
 	if ((*args)->infile < 0)
 		ft_set_err(ft_malloc(ft_strjoin(ERRFD, (*args)->av[1]), garbg));
-	(*args)->outfile = open((*args)->av[(*args)->ac - 1], O_CREAT | O_TRUNC | O_RDWR, RDWR);
-	if ((*args)->outfile < 0)
-		ft_exit(ERRFD, garbg, 1);
+	(*args)->outfile = faillure(garbg, \
+	open((*args)->av[(*args)->ac - 1], O_CREAT | O_TRUNC | O_RDWR, RDWR), ERRFD);
 	get_commands(args, garbg, 2);
 }
 
@@ -78,11 +77,11 @@ void	get_commands(t_args **args, t_list **garbg, int cmdind)
 	(*args)->cmds_path[(*args)->ac - cmdind - 1] = NULL;
 	while (cmdind < (*args)->ac - 1)
 	{
-		count = 0;
+		count = -1;
 		skip = 0;
 		(*args)->cmds[cmd] = ft_split_garbg((*args)->av[cmdind], ' ', garbg);
-		while ((*args)->cmds[cmd][0][count++])
-			if ((*args)->cmds[cmd][0][count++] == '/')
+		while ((*args)->cmds[cmd][0][++count])
+			if ((*args)->cmds[cmd][0][count] == '/')
 				skip++;
 		tmp = check_commands(args, garbg, cmd, skip);
 		if (tmp)

@@ -6,20 +6,23 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 03:45:18 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/05 04:58:47 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/05 05:58:24 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex.h"
 
-int	adprint_err(t_list **garbg, t_args **args, int cmdind, int skip)
+int	print_err(t_list **garbg, t_args **args, int cmdind, int skip)
 {
-	if (skip)
+    if (!cmdind && (*args)->infile < 0)
+        return (0);
+	else if (skip)
 		return (ft_set_err(ft_malloc(\
 		ft_strjoin(ERRFD, (*args)->cmds[cmdind][0]), garbg)), 0);
-	else
+	else if (!skip)
 		return (ft_set_err(ft_malloc(\
 		ft_strjoin(ERRCMD, (*args)->cmds[cmdind][0]), garbg)), 0);
+	return (0);
 }
 
 char	*check_commands(t_args **args, t_list **garbg, int cmdind, int skip)
