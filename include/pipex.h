@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:20 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/04 23:31:14 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/05 04:02:39 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,16 @@ typedef struct s_args
 }	t_args;
 
 /// @brief
-/// @param s
-/// @param c
-/// @param garbg
+/// @param s	string to split
+/// @param c	separater
+/// @param garbg	garbg collecter
 /// @return
 char	**ft_split_garbg(char const *s, char c, t_list **garbg);
 
 /// @brief exit function in error cases
 /// @param error_msg error message to write in stderr
 /// @param garbg garbage collector linked list
+/// @param exit_status exit status (Faillure/Success)
 void	ft_exit(char *error_msg, t_list **garbg, int exit_status);
 
 /// @brief purpose of this function is to save all addresses being allocated
@@ -77,14 +78,10 @@ char	*env_path(char **envp, t_list **garbg);
 
 /// @brief this function translate/check/save the program args
 /// @param args args saver structur
-/// @param argv	program args
-/// @param argc number of program args
 void	get_args(t_args **args, t_list **garbg);
 
 /// @brief this function take commands from args
 /// @param args args saver structur
-/// @param argv program args
-/// @param argc number of program args
 /// @param garbg garbage collector linked list
 void	get_commands(t_args **args, t_list **garbg);
 
@@ -92,36 +89,45 @@ void	get_commands(t_args **args, t_list **garbg);
 /// @param args args saver structur
 /// @param garbg garbage collector linked list
 /// @param cmdind indice of a command
-/// @param skip 
+/// @param skip (comand is a path) if true otherwise false
 /// @return command path
 char	*check_commands(t_args **args, t_list **garbg, int cmdind, int skip);
 
-/// @brief
-/// @param garbg
-/// @param args
-/// @param envp
+/// @brief	parsing controller
+/// @param garbg	garbg collecter 
+/// @param args		arguments
+/// @param envp		envp
 void	ft_parse(t_list **garbg, t_args **args, char **envp);
 
 /// @brief
-/// @param args
-/// @param garbg
-/// @param envp
-/// @param i
+/// @param args		arguments
+/// @param garbg	garbg collecter 
+/// @param envp	envp
 void	exec_command(t_args *args, t_list **garbg, char **envp);
 
-/// @brief
-/// @param garbg
-/// @param args
-/// @param ac
-/// @param envp
+/// @brief	execute commands
+/// @param garbg	garbg collecter 
+/// @param args	args (commands/ commands path)
+/// @param envp	envp
 void	ft_execute(t_list **garbg, t_args **args, char **envp);
 
-/// @brief 
-/// @param error_msg 
+/// @brief print an error without exiting from program
+/// @param error_msg error message
 void	ft_set_err(char *error_msg);
 
-int	function_faillure(t_list **garbg, int return_value, char *exit_message);
+/// @brief 	check if any functions fail
+/// @param garbg	garbg collector
+/// @param return_value	functions return  
+/// @param exit_message error message in case of faillure
+/// @return functions return  (return_value)
+int		function_faillure(t_list **garbg, int return_value, char *exit_message);
 
-int	print_err(t_list **garbg, t_args **args, int cmdind, int skip);
+/// @brief a helper function to cotroll wich error message to print
+/// @param garbg 	garbg collector
+/// @param args 	arguments
+/// @param cmdind 	command indice
+/// @param skip 	(comand is a path) if true otherwise false
+/// @return 	
+int		print_err(t_list **garbg, t_args **args, int cmdind, int skip);
 
 #endif

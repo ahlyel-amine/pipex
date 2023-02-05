@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/04 23:41:07 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/05 03:45:10 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ void	get_args(t_args **args, t_list **garbg)
 	open((*args)->av[(*args)->ac - 1], \
 	O_CREAT | O_TRUNC | O_RDWR, RDWR), ERROPEN);
 	get_commands(args, garbg);
-	// if (!(*args)->cmds_path)
-	// 	ft_exit(NULL, garbg, 0);
 }
 
 void	init_commands(t_args **args, t_list **garbg)
@@ -60,56 +58,18 @@ void	get_commands(t_args **args, t_list **garbg)
 	while (i < (*args)->ac - 1)
 	{
 		skip = 0;
-		count = 0;
+		count = -1;
 		(*args)->cmds[cmndind] = ft_split_garbg((*args)->av[i], ' ', garbg);
-		while ((*args)->cmds[cmndind][0][count])
-			if ((*args)->cmds[cmndind][0][count++] == '/')
+		while ((*args)->cmds[cmndind][0][++count])
+			if ((*args)->cmds[cmndind][0][count] == '/')
 				skip++;
 		tmp = check_commands(args, garbg, cmndind, skip);
-		if ((*args)->cmds_path && tmp)
+		if (tmp)
 			(*args)->cmds_path[cmndind++] = ft_malloc(ft_strdup(tmp), garbg);
 		else
-			(*args)->cmds_path = NULL;
+			(*args)->cmds_path[cmndind++] = NULL;
 		i++;
 	}
-}
-
-int	print_err(t_list **garbg, t_args **args, int cmdind, int skip)
-{
-	if (skip)
-		return (ft_set_err(ft_malloc(\
-		ft_strjoin(ERRFD, (*args)->cmds[cmdind][0]), garbg)), 0);
-	else
-		return (ft_set_err(ft_malloc(\
-		ft_strjoin(ERRCMD, (*args)->cmds[cmdind][0]), garbg)), 0);
-}
-
-char	*check_commands(t_args **args, t_list **garbg, int cmdind, int skip)
-{
-	char	*tmp;
-	int		acs;
-	int		j;
-
-	j = 0;
-	acs = -1;
-	tmp = NULL;
-	while ((*args)->path && (*args)->path[j])
-	{
-		acs = access((*args)->cmds[cmdind][0], F_OK);
-		if (acs != -1)
-			return ((*args)->cmds[cmdind][0]);
-		if (skip)
-			break ;
-		tmp = ft_malloc(ft_strjoin((*args)->path[j], "/"), garbg);
-		tmp = ft_malloc(ft_strjoin(tmp, (*args)->cmds[cmdind][0]), garbg);
-		acs = access(tmp, F_OK);
-		if (acs != -1)
-			return (tmp);
-		j++;
-	}
-	if (acs == -1 && !print_err(garbg, args, cmdind, skip))
-		tmp = NULL;
-	return (tmp);
 }
 
 char	*env_path(char **envp, t_list **garbg)

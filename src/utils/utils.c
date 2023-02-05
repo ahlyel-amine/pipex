@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 17:53:43 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/04 23:30:32 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/05 03:50:02 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_exit(char *error_msg, t_list **garbg, int exit_status)
 	if (error_msg)
 		ft_putendl_fd(error_msg, STDERR_FILENO);
 	else if (errno)
- 		perror(""); 
+		perror("");
 	ft_lstclear(garbg, free);
 	exit(EXIT_FAILURE);
 }
