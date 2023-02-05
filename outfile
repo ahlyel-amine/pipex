@@ -1,11 +1,12 @@
 Makefile$
 Readme.md$
+bin$
 bonus$
-cat -e$
 include$
 infile$
 lib$
 lol$
+obj$
 outfile$
 pipex_subject.pdf$
 src$

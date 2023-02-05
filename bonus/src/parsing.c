@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/04 20:55:46 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/05 05:28:50 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,6 @@ void	get_here_doc(t_args **args, t_list **garbg)
 	close((*args)->infile);
 	(*args)->infile = open(HRDCFILE, O_RDWR, RDWR);
 	get_commands(args, garbg, 3);
-	if (!(*args)->cmds_path)
-	{
-		unlink(HRDCFILE);
-		ft_exit(NULL, garbg, 0);
-	}
 }
 
 void	get_args(t_args **args, t_list **garbg)
@@ -60,7 +55,7 @@ void	get_args(t_args **args, t_list **garbg)
 		ft_exit(ERRSNTX, garbg, 1);
 	(*args)->infile = open((*args)->av[1], O_RDWR, RDWR);
 	if ((*args)->infile < 0)
-		ft_set_err(ERRFD);
+		ft_set_err(ft_malloc(ft_strjoin(ERRFD, (*args)->av[1]), garbg));
 	(*args)->outfile = open((*args)->av[(*args)->ac - 1], O_CREAT | O_TRUNC | O_RDWR, RDWR);
 	if ((*args)->outfile < 0)
 		ft_exit(ERRFD, garbg, 1);
@@ -72,6 +67,7 @@ void	get_commands(t_args **args, t_list **garbg, int cmdind)
 	char	*tmp;
 	int		cmd;
 	int		skip;
+	int		count;
 
 	tmp = NULL;
 	cmd = 0;
@@ -82,53 +78,19 @@ void	get_commands(t_args **args, t_list **garbg, int cmdind)
 	(*args)->cmds_path[(*args)->ac - cmdind - 1] = NULL;
 	while (cmdind < (*args)->ac - 1)
 	{
+		count = 0;
 		skip = 0;
 		(*args)->cmds[cmd] = ft_split_garbg((*args)->av[cmdind], ' ', garbg);
-		while ((*args)->cmds[cmd][0])
-		{
-			if ((*args)->cmds[cmd][0][skip] == '/')
+		while ((*args)->cmds[cmd][0][count++])
+			if ((*args)->cmds[cmd][0][count++] == '/')
 				skip++;
-			else if ((*args)->cmds[cmd][0][skip] == '.' && (*args)->cmds[cmd][0][skip + 1] == '/')
-				skip++;
-			else
-				break ;
-		}
 		tmp = check_commands(args, garbg, cmd, skip);
 		if (tmp)
 			(*args)->cmds_path[cmd++] = ft_malloc(ft_strdup(tmp), garbg);
 		else
-			(*args)->cmds_path = NULL;
+			(*args)->cmds_path[cmd++] = NULL;
 		cmdind++;
 	}
-}
-
-char	*check_commands(t_args **args, t_list **garbg, int cmdind, int skip)
-{
-	char	*tmp;
-	int		acs;
-	int		j;
-
-	j = 0;
-	acs = -1;
-	tmp = NULL;
-	while ((*args)->path && (*args)->path[j])
-	{
-
-		acs = access((*args)->cmds[cmdind][0], F_OK);
-		if (acs != -1)
-			return ((*args)->cmds[cmdind][0]);
-		if (skip)
-			break ;
-		tmp = ft_malloc(ft_strjoin((*args)->path[j], "/"), garbg);
-		tmp = ft_malloc(ft_strjoin(tmp, (*args)->cmds[cmdind][0]), garbg);
-		acs = access(tmp, F_OK);
-		if (acs != -1)
-			return (tmp);
-		j++;
-	}
-	if (acs == -1)
-		ft_set_err(ft_malloc(ft_strjoin(ERRCMD, (*args)->cmds[cmdind][0]), garbg));
-	return (tmp);
 }
 
 char	*env_path(char **envp, t_list **garbg)

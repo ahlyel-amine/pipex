@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:20 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/04 20:40:36 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/05 05:39:55 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,21 @@
 # include <fcntl.h>
 
 /*		define error messages		*/
-# define ERRENV "\e[1;91mpipex: Invalid envirenment\e[0m"
-# define ERRSNTX "\e[1;91mpipex: Syntax Error\e[0m Expected \
+# define ERRENV "pipex: Invalid envirenment"
+# define ERRSNTX "pipex: Syntax Error Expected \
 : ./pipex file1 cmd1 cmd2 ... cmdn file2"
-# define ERR_HEREDOC_SNTX "\e[1;91mpipex: Syntax Error\e[0m \
+# define ERR_HEREDOC_SNTX "pipex: Syntax Error \
 Expected : ./pipex here_doc LIMITER cmd cmd1 file"
-# define ERRFD "\e[1;91mpipex: no such file or directory: "
-# define ERRCMD "\e[1;91mpipex: no such file or directory: \e[0m"
-# define ERRALLOC "\e[1;91mpipex: Cannot allocate memory\e[0m"
-# define ERRPIPE "\e[1;91mpipex: Error pipe faillure"
-# define ERREXEC "\e[1;91mpipex: Error execve faillure"
-# define ERRWAIT "\e[1;91mpipex: Error waitpid faillure"
-# define ERRDUP2 "\e[1;91mpipex: Error dup2 faillure"
-# define ERREAD "\e[1;91mpipex: Error Read faillure"
-# define ERRWR "\e[1;91mpipex: Error Write faillure"
+# define ERRFD "pipex: no such file or directory: "
+# define ERRCMD "pipex: command not found: "
+# define ERRALLOC "pipex: Cannot allocate memory"
+# define ERRPIPE "pipex: Error pipe faillure"
+# define ERREXEC "pipex: Error execve faillure"
+# define ERRCLOSE "ipex: Error close faillure"
+# define ERRWAIT "pipex: Error waitpid faillure"
+# define ERRDUP2 "pipex: Error dup2 faillure"
+# define ERREAD "pipex: Error Read faillure"
+# define ERRWR "pipex: Error Write faillure"
 /*--------------------------------*/
 /*		define variable 		*/
 # define RDWR 0644
@@ -124,5 +125,7 @@ void	ft_execute(t_list **garbg, t_args **args, char **envp);
 void	get_here_doc(t_args **args, t_list **garbg);
 void	ft_execute_heredoc(t_list **garbg, t_args **args, char **envp);
 void	ft_set_err(char *error_msg);
+int	faillure(t_list **garbg, int return_value, char *exit_message);
+int	adprint_err(t_list **garbg, t_args **args, int cmdind, int skip);
 
 #endif

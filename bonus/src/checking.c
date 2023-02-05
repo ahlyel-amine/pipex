@@ -5,21 +5,24 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/05 03:45:18 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/05 04:58:47 by aahlyel          ###   ########.fr       */
+/*   Created: 2023/02/05 04:59:41 by aahlyel           #+#    #+#             */
+/*   Updated: 2023/02/05 05:35:31 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex.h"
 
-int	adprint_err(t_list **garbg, t_args **args, int cmdind, int skip)
+int print_err(t_list **garbg, t_args **args, int cmdind, int skip)
 {
-	if (skip)
+    if (!cmdind && (*args)->infile < 0)
+        return (0);
+	else if (skip)
 		return (ft_set_err(ft_malloc(\
 		ft_strjoin(ERRFD, (*args)->cmds[cmdind][0]), garbg)), 0);
-	else
+	else if (!skip)
 		return (ft_set_err(ft_malloc(\
 		ft_strjoin(ERRCMD, (*args)->cmds[cmdind][0]), garbg)), 0);
+    return (1);
 }
 
 char	*check_commands(t_args **args, t_list **garbg, int cmdind, int skip)
@@ -33,6 +36,7 @@ char	*check_commands(t_args **args, t_list **garbg, int cmdind, int skip)
 	tmp = NULL;
 	while ((*args)->path && (*args)->path[j])
 	{
+
 		acs = access((*args)->cmds[cmdind][0], F_OK);
 		if (acs != -1)
 			return ((*args)->cmds[cmdind][0]);
@@ -46,6 +50,6 @@ char	*check_commands(t_args **args, t_list **garbg, int cmdind, int skip)
 		j++;
 	}
 	if (acs == -1 && !print_err(garbg, args, cmdind, skip))
-		return (NULL);
+        return (NULL);
 	return (tmp);
 }
