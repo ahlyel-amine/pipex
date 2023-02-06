@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/06 20:14:45 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/07 00:45:17 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	get_commands(t_args **args, t_list **garbg, int cmdind)
 	{
 		count = -1;
 		(*args)->cmds[cmd] = ft_split_garbg((*args)->av[cmdind], ' ', garbg);
-		skip = check_is_path(*args, cmd);
+		skip = check_is_path(garbg, *args, cmd);
 		tmp = check_commands(args, garbg, cmd, skip);
 		if (tmp)
 			(*args)->cmds_path[cmd++] = ft_malloc(ft_strdup(tmp), garbg);

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/06 05:57:17 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/06 22:58:15 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void	get_commands(t_args **args, t_list **garbg)
 		skip = 0;
 		count = -1;
 		(*args)->cmds[cmndind] = ft_split_garbg((*args)->av[i], ' ', garbg);
+		if (!(*args)->cmds[cmndind][0])
+			ft_exit(ERRSNTX, garbg, 1);
 		while ((*args)->cmds[cmndind][0][++count])
 			if ((*args)->cmds[cmndind][0][count] == '/')
 				skip++;

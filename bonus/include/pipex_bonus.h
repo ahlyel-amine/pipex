@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:20 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/06 20:13:57 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/07 00:45:33 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,6 @@ int		print_err(t_list **garbg, t_args **args, int cmdind, int skip);
 /// @param args 
 /// @param cmd 
 /// @return 
-int		check_is_path(t_args *args, int cmd);
+int		check_is_path(t_list **garbg, t_args *args, int cmd);
 
 #endif
