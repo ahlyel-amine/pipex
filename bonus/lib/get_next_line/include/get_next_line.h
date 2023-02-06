@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 17:59:34 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/01/28 18:50:00 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/06 20:14:06 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include "../../libft/include/libft.h"
-# include "../../../include/pipex.h"
+# include "../../../include/pipex_bonus.h"
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1

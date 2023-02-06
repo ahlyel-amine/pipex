@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split_garbg.c                                   :+:      :+:    :+:   */
+/*   ft_split_garbg_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:39:09 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/06 04:57:18 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/06 20:14:51 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/pipex.h"
+#include "../../include/pipex_bonus.h"
 
 static int	word_count(char *s, char c);
 

@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   pipex_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:01:03 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/06 06:12:21 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/06 20:23:23 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/pipex.h"
-#include <unistd.h>
+#include "../include/pipex_bonus.h"
 
 int	main(int ac, char **av, char **envp)
 {

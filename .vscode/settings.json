@@ -1,11 +1,3 @@
 {
-    "files.associations": {
-        "*.excalidraw": "json",
-        "*.excalidrawlib": "json",
-        "pipex.h": "c",
-        "errno.h": "c",
-        "unistd.h": "c",
-        "libft.h": "c"
-    },
     "C_Cpp.errorSquiggles": "disabled"
 }

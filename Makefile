@@ -6,7 +6,7 @@
 #    By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/04 13:04:18 by aahlyel           #+#    #+#              #
-#    Updated: 2023/02/06 03:26:58 by aahlyel          ###   ########.fr        #
+#    Updated: 2023/02/06 20:24:01 by aahlyel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,9 @@ NC   = '\e[0m'
 #			Mandatory Variables				#
 #-------------------------------------------#
 
-OBJS =	obj/pipex.o obj/utils.o obj/parsing.o obj/executer.o obj/ft_split_garbg.o obj/checking.o\
+SRC =	obj/pipex obj/utils obj/parsing obj/executer obj/ft_split_garbg obj/checking
+
+OBJS =	${addsuffix .o, ${SRC}}
 
 dir = bin obj
 
@@ -38,7 +40,7 @@ NAME = bin/pipex
 #				Bonus Variables					#
 #-----------------------------------------------#
 
-BONUS_OBJS = ${addprefix bonus/, ${OBJS}}
+BONUS_OBJS = ${addsuffix _bonus.o, ${addprefix bonus/, ${SRC}}}
 
 bonus_dir = ${addprefix bonus/, ${dir}}
 
@@ -46,7 +48,7 @@ bonus_libft = ${addprefix bonus/, ${libft}}
 
 BONUS_LIBA = ${addprefix bonus/, ${LIBA}}
 
-BONUS_NAME = ${addprefix bonus/, ${NAME}}
+BONUS_NAME =${addprefix bonus/, ${NAME}}
 
 GNLA = bonus/lib/get_next_line/bin/get_next_line.a
 
@@ -100,11 +102,11 @@ ${BONUS_NAME} : ${bonus_dir} ${BONUS_OBJS}
 	printf ${HGRN}"Executable $(BONUS_NAME) ready ✔️"${NC}
 
 
-bonus/obj/%.o : bonus/src/%.c bonus/include/pipex.h
+bonus/obj/%.o : bonus/src/%.c bonus/include/pipex_bonus.h
 	@printf ${HBLU}"[%-30s] 🕝 \r"${NC} "Compiling ${notdir $@}"
 	@${CC} ${CFLAGS} -c -o $@ $<
 
-bonus/obj/%.o : bonus/src/utils/%.c bonus/include/pipex.h
+bonus/obj/%.o : bonus/src/utils/%.c bonus/include/pipex_bonus.h
 	@printf ${HBLU}"[%-30s] 🕝 \r"${NC} "Compiling ${notdir $@}"
 	@${CC} ${CFLAGS} -c -o $@ $<
 
