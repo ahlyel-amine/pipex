@@ -6,36 +6,27 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:39:09 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/02 14:59:52 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/06 04:57:18 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/pipex.h"
 
 static int	word_count(char *s, char c);
-static int	alloc_fill_strs(char **splited, char *s, char c, int wc, t_list **garbg);
 
 char	**ft_split_garbg(char const *s, char c, t_list **garbg)
 {
 	char	**splited;
 	int		wc;
+	int		i;
+	int		tmp_count;
 
 	if (!s)
 		return (NULL);
+	i = 0;
 	wc = word_count((char *)s, c);
 	splited = ft_malloc(malloc((wc + 1) * sizeof(char *)), garbg);
-	if (!splited)
-		return (NULL);
-	if (alloc_fill_strs(splited, (char *)s, c, wc, garbg))
-		ft_exit(ERRALLOC, garbg, 1);
-	return (splited);
-}
-
-static int	alloc_fill_strs(char **splited, char *s, char c, int wc, t_list **garbg)
-{
-	int	tmp_count;
-
-	while (wc--)
+	while (i < wc)
 	{
 		tmp_count = 0;
 		while (*s == c)
@@ -44,14 +35,12 @@ static int	alloc_fill_strs(char **splited, char *s, char c, int wc, t_list **gar
 			tmp_count++;
 		if (!tmp_count)
 			break ;
-		*splited = ft_malloc(ft_substr(s, 0, tmp_count), garbg);
-		if (!splited)
-			return (1);
+		splited[i] = ft_malloc(ft_substr(s, 0, tmp_count), garbg);
 		s += tmp_count;
-		splited++;
+		i++;
 	}
-	*splited = NULL;
-	return (0);
+	splited[i] = NULL;
+	return (splited);
 }
 
 static int	word_count(char *s, char c)

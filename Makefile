@@ -6,7 +6,7 @@
 #    By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/04 13:04:18 by aahlyel           #+#    #+#              #
-#    Updated: 2023/02/05 03:47:35 by aahlyel          ###   ########.fr        #
+#    Updated: 2023/02/06 03:26:58 by aahlyel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,8 +86,6 @@ obj/%.o : src/utils/%.c include/pipex.h
 
 ${dir} :
 	${mkdir} ${dir}
-	touch infile
-	
 	
 #---------------------------------------------------#
 #						Bonus						#
@@ -112,7 +110,6 @@ bonus/obj/%.o : bonus/src/utils/%.c bonus/include/pipex.h
 
 ${bonus_dir} :
 	${mkdir} ${bonus_dir}
-	touch infile
 
 #-----------------------------------------------#
 #					Cleaning					#
@@ -129,7 +126,7 @@ fclean : clean
 	make fclean -C ${libft}
 	make fclean -C ${bonus_libft}
 	make fclean -C ${GNL}
-	${RM} bin bonus/bin infile pipex
+	${RM} bin bonus/bin pipex
 	printf ${HRED}"Executables and Archives removed successfully 🗑️\n"$(NC)
 
 re : fclean all

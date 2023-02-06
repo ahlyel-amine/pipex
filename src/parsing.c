@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/05 03:45:10 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/06 05:57:17 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,16 @@ void	ft_parse(t_list **garbg, t_args **args, char **envp)
 
 void	get_args(t_args **args, t_list **garbg)
 {
-	(*args)->infile = open((*args)->av[1], O_RDONLY, RDWR);
+	int	fd_perm;
+	int	fd_flag_out;
+
+	fd_perm = S_IWUSR | S_IRUSR;
+	fd_flag_out = O_CREAT | O_TRUNC | O_RDWR;
+	(*args)->infile = open((*args)->av[1], O_RDONLY, fd_perm);
 	if ((*args)->infile < 0)
 		ft_set_err(ft_malloc(ft_strjoin(ERRFD, (*args)->av[1]), garbg));
 	(*args)->outfile = function_faillure(garbg, \
-	open((*args)->av[(*args)->ac - 1], \
-	O_CREAT | O_TRUNC | O_RDWR, RDWR), ERROPEN);
+	open((*args)->av[(*args)->ac - 1], fd_flag_out, fd_perm), ERROPEN);
 	get_commands(args, garbg);
 }
 

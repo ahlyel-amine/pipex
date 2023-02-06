@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:20 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/05 05:57:13 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/06 05:57:08 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,6 @@
 # define ERRDUP2 "\e[1;91mpipex: Error dup2 faillure\e[0m"
 # define ERRFRK "\e[1;91mpipex: Error fork faillure\e[0m"
 /*----------------------------------------------------------------*/
-
-/*		define variable 		*/
-# define RDWR 0644
-/*--------------------------------*/
 
 typedef struct s_args
 {

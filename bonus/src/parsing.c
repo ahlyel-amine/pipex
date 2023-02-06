@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/05 06:55:33 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/06 06:07:52 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,45 +26,46 @@ void	ft_parse(t_list **garbg, t_args **args, char **envp)
 void	get_here_doc(t_args **args, t_list **garbg)
 {
 	char	*tmp;
-	int fd[2];
+	int		fd_perm;
+	int		fd_flag_herdoc;
 
-	pipe(fd);
 	tmp = NULL;
+	fd_perm = S_IWUSR | S_IRUSR;
+	fd_flag_herdoc = O_CREAT | O_APPEND | O_RDWR;
 	if ((*args)->ac != 6)
 		ft_exit(ERR_HEREDOC_SNTX, garbg, 1);
-	(*args)->outfile = open((*args)->av[(*args)->ac - 1], O_CREAT | O_APPEND | O_RDWR, RDWR);
-	// (*args)->infile = open(HRDCFILE, O_CREAT | O_TRUNC | O_RDWR, RDWR);
-	(*args)->infile = fd[0];
-	if ((*args)->outfile < 0 || (*args)->infile < 0)
-		ft_exit(ERRFD, garbg, 1);
+	(*args)->outfile = faillure(garbg, \
+	open((*args)->av[(*args)->ac - 1], fd_flag_herdoc, fd_perm), ERRFD);
+	faillure(garbg, pipe((*args)->fd), ERRPIPE);
+	(*args)->infile = (*args)->fd[0];
 	(*args)->limiter = ft_malloc(ft_strjoin((*args)->av[2], "\n"), garbg);
-	while (1)
+	while (1337)
 	{
-		write(1, HRDCCMD, 14);
+		faillure(garbg, write(1, HRDCCMD, 14), ERRWR);
 		tmp = get_next_line(0, garbg);
-		if(!tmp || (tmp && !ft_memcmp((*args)->limiter, tmp, ft_strlen((*args)->limiter))))
+		if (!tmp || \
+		(tmp && !ft_memcmp((*args)->limiter, tmp, ft_strlen((*args)->limiter))))
 			break ;
-		if (write(fd[1], tmp, ft_strlen(tmp)) == -1)
-			ft_exit(ERRWR, garbg, 1);
+		faillure(garbg, write((*args)->fd[1], tmp, ft_strlen(tmp)), ERRWR);
 	}
-	// close((*args)->infile);
-	// (*args)->infile = open(HRDCFILE, O_RDWR, RDWR);
-	close(fd[1]);
-
-	// (*args)->infile = fd[1];
-
+	faillure(garbg, close((*args)->fd[1]), ERRCLOSE);
 	get_commands(args, garbg, 3);
 }
 
 void	get_args(t_args **args, t_list **garbg)
 {
+	int	fd_perm;
+	int	fd_flag_out;
+
+	fd_perm = S_IWUSR | S_IRUSR;
+	fd_flag_out = O_CREAT | O_TRUNC | O_RDWR;
 	if ((*args)->ac < 5)
 		ft_exit(ERRSNTX, garbg, 1);
-	(*args)->infile = open((*args)->av[1], O_RDWR, RDWR);
+	(*args)->infile = open((*args)->av[1], O_RDWR, ERRFD);
 	if ((*args)->infile < 0)
 		ft_set_err(ft_malloc(ft_strjoin(ERRFD, (*args)->av[1]), garbg));
 	(*args)->outfile = faillure(garbg, \
-	open((*args)->av[(*args)->ac - 1], O_CREAT | O_TRUNC | O_RDWR, RDWR), ERRFD);
+	open((*args)->av[(*args)->ac - 1], fd_flag_out, fd_perm), ERRFD);
 	get_commands(args, garbg, 2);
 }
 
@@ -77,7 +78,8 @@ void	get_commands(t_args **args, t_list **garbg, int cmdind)
 
 	tmp = NULL;
 	cmd = 0;
-	(*args)->cmds = ft_malloc(malloc(sizeof(char **) * (*args)->ac - cmdind), garbg);
+	(*args)->cmds = ft_malloc(\
+	malloc(sizeof(char **) * (*args)->ac - cmdind), garbg);
 	(*args)->cmds_path = \
 		ft_malloc(malloc(sizeof(char *) * (*args)->ac - cmdind), garbg);
 	(*args)->cmds[(*args)->ac - cmdind - 1] = NULL;
@@ -85,11 +87,8 @@ void	get_commands(t_args **args, t_list **garbg, int cmdind)
 	while (cmdind < (*args)->ac - 1)
 	{
 		count = -1;
-		skip = 0;
 		(*args)->cmds[cmd] = ft_split_garbg((*args)->av[cmdind], ' ', garbg);
-		while ((*args)->cmds[cmd][0][++count])
-			if ((*args)->cmds[cmd][0][count] == '/')
-				skip++;
+		skip = check_is_path(*args, cmd);
 		tmp = check_commands(args, garbg, cmd, skip);
 		if (tmp)
 			(*args)->cmds_path[cmd++] = ft_malloc(ft_strdup(tmp), garbg);

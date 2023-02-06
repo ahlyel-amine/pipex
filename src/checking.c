@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 03:45:18 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/05 05:58:24 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/06 05:39:33 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	print_err(t_list **garbg, t_args **args, int cmdind, int skip)
 {
-    if (!cmdind && (*args)->infile < 0)
-        return (0);
+	if (!cmdind && (*args)->infile < 0)
+		return (0);
 	else if (skip)
 		return (ft_set_err(ft_malloc(\
 		ft_strjoin(ERRFD, (*args)->cmds[cmdind][0]), garbg)), 0);

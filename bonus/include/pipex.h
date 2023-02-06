@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:20 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/05 05:39:55 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/06 06:02:26 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ Expected : ./pipex here_doc LIMITER cmd cmd1 file"
 # define ERREAD "pipex: Error Read faillure"
 # define ERRWR "pipex: Error Write faillure"
 /*--------------------------------*/
+
 /*		define variable 		*/
-# define RDWR 0644
 # define HRDCCMD "pipe heredoc> "
 # define HEREDOC "here_doc"
 # define HRDCFILE ".heredoc"
@@ -106,14 +106,12 @@ char	*check_commands(t_args **args, t_list **garbg, int cmdind, int skip);
 /// @param envp
 void	ft_parse(t_list **garbg, t_args **args, char **envp);
 
-
 /// @brief
 /// @param args
 /// @param garbg
 /// @param envp
 /// @param i
 void	exec_command(t_args *args, t_list **garbg, char **envp, int i);
-
 
 /// @brief
 /// @param garbg
@@ -122,10 +120,40 @@ void	exec_command(t_args *args, t_list **garbg, char **envp, int i);
 /// @param envp
 void	ft_execute(t_list **garbg, t_args **args, char **envp);
 
+/// @brief 
+/// @param args 
+/// @param garbg 
 void	get_here_doc(t_args **args, t_list **garbg);
+
+/// @brief 
+/// @param garbg 
+/// @param args 
+/// @param envp 
 void	ft_execute_heredoc(t_list **garbg, t_args **args, char **envp);
+
+/// @brief 
+/// @param error_msg 
 void	ft_set_err(char *error_msg);
-int	faillure(t_list **garbg, int return_value, char *exit_message);
-int	adprint_err(t_list **garbg, t_args **args, int cmdind, int skip);
+
+/// @brief 
+/// @param garbg 
+/// @param return_value 
+/// @param exit_message 
+/// @return 
+int		faillure(t_list **garbg, int return_value, char *exit_message);
+
+/// @brief 
+/// @param garbg 
+/// @param args 
+/// @param cmdind 
+/// @param skip 
+/// @return 
+int		print_err(t_list **garbg, t_args **args, int cmdind, int skip);
+
+/// @brief 
+/// @param args 
+/// @param cmd 
+/// @return 
+int		check_is_path(t_args *args, int cmd);
 
 #endif
