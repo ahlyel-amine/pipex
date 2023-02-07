@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/07 00:45:17 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/07 20:26:53 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,15 @@ void	ft_parse(t_list **garbg, t_args **args, char **envp)
 		ft_exit(ERRENV, garbg, 1);
 	(*args)->path = ft_split_garbg(env_path(envp, garbg), ':', garbg);
 	if ((*args)->av[1] && !ft_memcmp((*args)->av[1], HEREDOC, 8))
+	{
 		get_here_doc(args, garbg);
+		get_commands(args, garbg, 3);
+	}
 	else
+	{
 		get_args(args, garbg);
+		get_commands(args, garbg, 2);
+	}
 }
 
 void	get_here_doc(t_args **args, t_list **garbg)
@@ -49,7 +55,6 @@ void	get_here_doc(t_args **args, t_list **garbg)
 		faillure(garbg, write((*args)->fd[1], tmp, ft_strlen(tmp)), ERRWR);
 	}
 	faillure(garbg, close((*args)->fd[1]), ERRCLOSE);
-	get_commands(args, garbg, 3);
 }
 
 void	get_args(t_args **args, t_list **garbg)
@@ -66,7 +71,6 @@ void	get_args(t_args **args, t_list **garbg)
 		ft_set_err(ft_malloc(ft_strjoin(ERRFD, (*args)->av[1]), garbg));
 	(*args)->outfile = faillure(garbg, \
 	open((*args)->av[(*args)->ac - 1], fd_flag_out, fd_perm), ERRFD);
-	get_commands(args, garbg, 2);
 }
 
 void	get_commands(t_args **args, t_list **garbg, int cmdind)

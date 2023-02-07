@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:20 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/06 05:57:08 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/07 20:25:23 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,5 +125,18 @@ int		function_faillure(t_list **garbg, int return_value, char *exit_message);
 /// @param skip 	(comand is a path) if true otherwise false
 /// @return 	
 int		print_err(t_list **garbg, t_args **args, int cmdind, int skip);
+
+/// @brief check if a the command set contain a path
+/// @param garbg garbg collector
+/// @param args	arguments
+/// @param cmd	
+/// @return 	
+int		check_is_path(t_list **garbg, t_args *args, int cmd);
+
+/// @brief 	initialize variables
+/// @param garbg garbg collector
+/// @param args	arguments
+/// @return 
+void	init_commands(t_args **args, t_list **garbg);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:01:03 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/06 20:23:23 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/07 19:32:02 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,5 @@ int	main(int ac, char **av, char **envp)
 	if (args->limiter)
 		args->ac--;
 	ft_execute(&garbg, &args, envp);
-	if (args->limiter)
-		unlink(HRDCFILE);
 	ft_exit(NULL, &garbg, 0);
 }

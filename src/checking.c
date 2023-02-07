@@ -6,11 +6,26 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 03:45:18 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/06 05:39:33 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/07 20:15:18 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex.h"
+
+int	check_is_path(t_list **garbg, t_args *args, int cmd)
+{
+	int	count;
+	int	skip;
+
+	count = -1;
+	skip = 0;
+	if (!args->cmds[cmd][0])
+		ft_exit(ERRSNTX, garbg, 1);
+	while (args->cmds[cmd][0][++count])
+		if (args->cmds[cmd][0][count] == '/')
+			skip++;
+	return (skip);
+}
 
 int	print_err(t_list **garbg, t_args **args, int cmdind, int skip)
 {

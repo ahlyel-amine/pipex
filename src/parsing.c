@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/06 22:58:15 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/07 20:19:15 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	ft_parse(t_list **garbg, t_args **args, char **envp)
 	if (!envp)
 		ft_exit(ERRENV, garbg, 1);
 	(*args)->path = ft_split_garbg(env_path(envp, garbg), ':', garbg);
+	get_commands(args, garbg);
 	get_args(args, garbg);
 }
 
@@ -34,7 +35,6 @@ void	get_args(t_args **args, t_list **garbg)
 		ft_set_err(ft_malloc(ft_strjoin(ERRFD, (*args)->av[1]), garbg));
 	(*args)->outfile = function_faillure(garbg, \
 	open((*args)->av[(*args)->ac - 1], fd_flag_out, fd_perm), ERROPEN);
-	get_commands(args, garbg);
 }
 
 void	init_commands(t_args **args, t_list **garbg)
@@ -64,11 +64,7 @@ void	get_commands(t_args **args, t_list **garbg)
 		skip = 0;
 		count = -1;
 		(*args)->cmds[cmndind] = ft_split_garbg((*args)->av[i], ' ', garbg);
-		if (!(*args)->cmds[cmndind][0])
-			ft_exit(ERRSNTX, garbg, 1);
-		while ((*args)->cmds[cmndind][0][++count])
-			if ((*args)->cmds[cmndind][0][count] == '/')
-				skip++;
+		check_is_path(garbg, *args, cmndind);
 		tmp = check_commands(args, garbg, cmndind, skip);
 		if (tmp)
 			(*args)->cmds_path[cmndind++] = ft_malloc(ft_strdup(tmp), garbg);

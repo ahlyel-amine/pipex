@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:20 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/07 00:45:33 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/07 19:32:37 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ Expected : ./pipex here_doc LIMITER cmd cmd1 file"
 /*		define variable 		*/
 # define HRDCCMD "pipe heredoc> "
 # define HEREDOC "here_doc"
-# define HRDCFILE ".heredoc"
 /*--------------------------------*/
 
 typedef struct s_args
