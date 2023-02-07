@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/07 20:19:15 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/07 23:47:34 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,9 @@ void	get_commands(t_args **args, t_list **garbg)
 	init_commands(args, garbg);
 	while (i < (*args)->ac - 1)
 	{
-		skip = 0;
 		count = -1;
 		(*args)->cmds[cmndind] = ft_split_garbg((*args)->av[i], ' ', garbg);
-		check_is_path(garbg, *args, cmndind);
+		skip = check_is_path(garbg, *args, cmndind);
 		tmp = check_commands(args, garbg, cmndind, skip);
 		if (tmp)
 			(*args)->cmds_path[cmndind++] = ft_malloc(ft_strdup(tmp), garbg);

@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:20 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/07 20:25:23 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/07 23:49:50 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@
 /*						define error variables						*/
 # define ERRENV "\e[1;91mpipex: Errror Invalid envirenment\e[0m"
 # define ERRSNTX "\e[1;91mpipex: Syntax Error,\e[0m Expected : \
-./pipex file1 cmd1 cmd2 file2"
-# define ERRFD "\e[1;91mpipex: no such file or directory: "
-# define ERRCMD "\e[1;91mpipex: command not found: "
+./pipex file1 cmd1 cmd2 file2\e[0m"
+# define ERRFD "\e[1;91mpipex: no such file or directory: \e[0m"
+# define ERRCMD "\e[1;91mpipex: command not found: \e[0m"
 # define ERRALLOC "\e[1;91mpipex: Cannot allocate memory\e[0m"
 # define ERRPIPE "\e[1;91mpipex: Error pipe faillure\e[0m"
 # define ERREXEC "\e[1;91mpipex: Error execve faillure\e[0m"
@@ -100,6 +100,11 @@ void	ft_parse(t_list **garbg, t_args **args, char **envp);
 /// @param garbg	garbg collecter 
 /// @param envp	envp
 void	exec_command(t_args *args, t_list **garbg, char **envp);
+
+/// @brief 
+/// @param args arguments
+/// @param garbg garbg collecter 
+void	exec_command_noinfile(t_args *args, t_list **garbg);
 
 /// @brief	execute commands
 /// @param garbg	garbg collecter 

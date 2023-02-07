@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 15:01:44 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/07 22:39:16 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/07 23:41:42 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,13 @@ void	ft_execute(t_list **garbg, t_args **args, char **envp)
 		function_faillure(garbg, \
 		execve((*args)->cmds_path[1], (*args)->cmds[1], envp), ERREXEC);
 	}
+}
+
+void	exec_command_noinfile(t_args *args, t_list **garbg)
+{
+	function_faillure(garbg, dup2(args->fd[0], STDIN_FILENO), ERRDUP2);
+	function_faillure(garbg, close(args->fd[1]), ERRCLOSE);
+	function_faillure(garbg, close(args->fd[0]), ERRCLOSE);
 }
 
 void	exec_command(t_args *args, t_list **garbg, char **envp)
@@ -53,5 +60,5 @@ void	exec_command(t_args *args, t_list **garbg, char **envp)
 		}
 	}
 	else
-		function_faillure(garbg, dup2(args->outfile, STDIN_FILENO), ERRDUP2);
+		exec_command_noinfile(args, garbg);
 }

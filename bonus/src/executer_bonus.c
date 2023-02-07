@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 21:10:36 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/07 22:39:55 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/07 23:54:34 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,13 @@ void	ft_execute(t_list **garbg, t_args **args, char **envp)
 	}
 }
 
+void	exec_command_noinfile(t_args *args, t_list **garbg)
+{
+	faillure(garbg, dup2(args->fd[0], STDIN_FILENO), ERRDUP2);
+	faillure(garbg, close(args->fd[1]), ERRCLOSE);
+	faillure(garbg, close(args->fd[0]), ERRCLOSE);
+}
+
 void	exec_command(t_args *args, t_list **garbg, char **envp, int i)
 {
 	int	pid;
@@ -60,5 +67,5 @@ void	exec_command(t_args *args, t_list **garbg, char **envp, int i)
 		}
 	}
 	else
-		faillure(garbg, dup2(args->outfile, STDIN_FILENO), ERRDUP2);
+		exec_command_noinfile(args, garbg);
 }
