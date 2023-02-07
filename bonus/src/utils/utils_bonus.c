@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 17:53:43 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/06 20:14:53 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/07 20:51:35 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,6 @@ void	*ft_malloc(void *pointer, t_list **garbg)
 		free(pointer);
 		ft_exit(ERRALLOC, garbg, 1);
 	}
-	ft_lstadd_back(garbg, new);
+	ft_lstadd_front(garbg, new);
 	return (pointer);
 }
