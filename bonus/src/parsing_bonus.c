@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:24:16 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/07 20:26:53 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/07 22:41:39 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ void	ft_parse(t_list **garbg, t_args **args, char **envp)
 	(*args)->path = ft_split_garbg(env_path(envp, garbg), ':', garbg);
 	if ((*args)->av[1] && !ft_memcmp((*args)->av[1], HEREDOC, 8))
 	{
-		get_here_doc(args, garbg);
 		get_commands(args, garbg, 3);
+		get_here_doc(args, garbg);
 	}
 	else
 	{
-		get_args(args, garbg);
 		get_commands(args, garbg, 2);
+		get_args(args, garbg);
 	}
 }
 
