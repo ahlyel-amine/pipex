@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 03:45:18 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/07 20:15:18 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/09 03:47:22 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,14 @@ char	*check_commands(t_args **args, t_list **garbg, int cmdind, int skip)
 	tmp = NULL;
 	while ((*args)->path && (*args)->path[j])
 	{
-		acs = access((*args)->cmds[cmdind][0], F_OK);
+		acs = access((*args)->cmds[cmdind][0], F_OK | X_OK);
 		if (acs != -1)
 			return ((*args)->cmds[cmdind][0]);
 		if (skip)
 			break ;
 		tmp = ft_malloc(ft_strjoin((*args)->path[j], "/"), garbg);
 		tmp = ft_malloc(ft_strjoin(tmp, (*args)->cmds[cmdind][0]), garbg);
-		acs = access(tmp, F_OK);
+		acs = access(tmp, F_OK | X_OK);
 		if (acs != -1)
 			return (tmp);
 		j++;

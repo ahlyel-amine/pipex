@@ -6,7 +6,7 @@
 /*   By: aahlyel <aahlyel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 15:01:44 by aahlyel           #+#    #+#             */
-/*   Updated: 2023/02/07 23:41:42 by aahlyel          ###   ########.fr       */
+/*   Updated: 2023/02/09 03:49:09 by aahlyel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	exec_command(t_args *args, t_list **garbg, char **envp)
 			function_faillure(garbg, dup2(args->fd[0], STDIN_FILENO), ERRDUP2);
 			function_faillure(garbg, close(args->fd[1]), ERRCLOSE);
 			function_faillure(garbg, close(args->fd[0]), ERRCLOSE);
-			function_faillure(garbg, waitpid(pid, NULL, F_OK), ERRWAIT);
 		}
 	}
 	else

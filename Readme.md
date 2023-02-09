@@ -118,8 +118,8 @@ main process
 |      /           |                                                                            |
 |     /            |   dup2(fd[0], STDIN)                                                       |
 |    /             |   close(fd[1])                                                             |
-|   /              |   close(fd[0])                                                             |
-|  /               |___waitpid(pid)                                                             |
+|   /              |__ close(fd[0])                                                             |
+|  /                                                                                            |
 | /                                                                                             |
 |/______________________________________________________________________________________________|
 |
@@ -133,4 +133,4 @@ main process
 
 <h1>Final Mark</h1>
 
-Not yet
+![Alt text](final_mark.png?raw=true "Final Mark")
