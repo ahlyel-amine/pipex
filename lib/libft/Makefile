@@ -62,7 +62,8 @@ NC   = '\e[0m'
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS =  -fsanitize=address
+#-Wall -Wextra -Werror
 
 RM = rm -rf
 
