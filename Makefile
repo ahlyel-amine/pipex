@@ -64,8 +64,8 @@ RM = rm -rf
 
 mkdir = mkdir -p
 
-CFLAGS = -Wall -Wextra -Werror
-#  -fsanitize=address
+CFLAGS =  -fsanitize=address
+#-Wall -Wextra -Werror 
 
 #---------------------------------------#
 #				Executable				#
