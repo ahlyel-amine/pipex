@@ -75,16 +75,16 @@ all : $(NAME)
 
 ${NAME} : ${dir} $(OBJS)
 	make -C ${libft}
-	${CC} ${CFLAGS} ${LIBA} ${OBJS} -o ${NAME}
+	${CC} ${LIBA} ${OBJS} -o ${NAME}
 	printf ${HGRN}"Executable $(NAME) ready ✔️"${NC}
 
 obj/%.o : src/%.c include/pipex.h
 	@printf ${HBLU}"[%-30s] 🕝 \r"${NC} "Compiling ${notdir $@}"
-	@${CC} ${CFLAGS} -c -o $@ $<
+	@${CC}  -c -o $@ $<
 
 obj/%.o : src/utils/%.c include/pipex.h
 	@printf ${HBLU}"[%-30s] 🕝 \r"${NC} "Compiling ${notdir $@}"
-	@${CC} ${CFLAGS} -c -o $@ $<
+	@${CC} -c -o $@ $<
 
 ${dir} :
 	${mkdir} ${dir}
@@ -98,17 +98,17 @@ bonus : ${BONUS_NAME}
 ${BONUS_NAME} : ${bonus_dir} ${BONUS_OBJS}
 	make -C ${bonus_libft}
 	make -C ${GNL}
-	${CC} ${CFLAGS} ${BONUS_OBJS} ${GNLA} ${BONUS_LIBA} -o ${BONUS_NAME}
+	${CC} ${BONUS_OBJS} ${GNLA} ${BONUS_LIBA} -o ${BONUS_NAME}
 	printf ${HGRN}"Executable $(BONUS_NAME) ready ✔️"${NC}
 
 
 bonus/obj/%.o : bonus/src/%.c bonus/include/pipex_bonus.h
 	@printf ${HBLU}"[%-30s] 🕝 \r"${NC} "Compiling ${notdir $@}"
-	@${CC} ${CFLAGS} -c -o $@ $<
+	@${CC} -c -o $@ $<
 
 bonus/obj/%.o : bonus/src/utils/%.c bonus/include/pipex_bonus.h
 	@printf ${HBLU}"[%-30s] 🕝 \r"${NC} "Compiling ${notdir $@}"
-	@${CC} ${CFLAGS} -c -o $@ $<
+	@${CC} -c -o $@ $<
 
 ${bonus_dir} :
 	${mkdir} ${bonus_dir}
